@@ -6,63 +6,68 @@
         mc:Ignorable="d"
         FontFamily="Consolas"
         FontWeight="Bold"
-        Title="Sudoku Master 3" Height="450" Width="800">
+        Title="Sudoku Master 3" Height="450" Width="1000">
     <Grid ShowGridLines="False" Margin="20,0,0,0">
-        <UniformGrid Height="288" Width="288" HorizontalAlignment="Left">
+        <DockPanel Margin="10">
+            <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0,0,0,10">
+                <Button Name="ButtonOpenFile" Click="ButtonOpenFile_Click">Open file</Button>
+            </WrapPanel>
+        </DockPanel>
+        <UniformGrid Height="288" Width="288" HorizontalAlignment="Left" x:Name="UniformGrid">
 
             <UniformGrid x:Name="Region1" Columns="3" Rows="3" Height="96" Width="96">
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr11" Width="32" Height="32" Background="LightYellow" x:Name="cr11"/>
+                        <Button Content="11" Width="32" Height="32" Background="LightYellow" x:Name="cr11"/>
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr21" Width="32" Height="32" Background="LightYellow" x:Name="cr21"/>
+                        <Button Content="21" Width="32" Height="32" Background="LightYellow" x:Name="cr21"/>
                     </Border>
                 </Border>
 
                 <Border  BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr31" Width="32" Height="32" Background="LightYellow" x:Name="cr31"/>
+                        <Button Content="31" Width="32" Height="32" Background="LightYellow" x:Name="cr31"/>
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr12" Width="32" Height="32" Background="LightYellow" x:Name="cr12" />
+                        <Button Content="12" Width="32" Height="32" Background="LightYellow" x:Name="cr12" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr22" Width="32" Height="32" Background="LightYellow" x:Name="cr22" />
+                        <Button Content="22" Width="32" Height="32" Background="LightYellow" x:Name="cr22" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr32" Width="32" Height="32" Background="LightYellow" x:Name="cr32"/>
+                        <Button Content="32" Width="32" Height="32" Background="LightYellow" x:Name="cr32"/>
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr13" Width="32" Height="32" Background="LightYellow"  x:Name="cr13"/>
+                        <Button Content="13" Width="32" Height="32" Background="LightYellow"  x:Name="cr13"/>
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr23" Width="32" Height="32" Background="LightYellow" x:Name="cr23"/>
+                        <Button Content="23" Width="32" Height="32" Background="LightYellow" x:Name="cr23"/>
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr33" Width="32" Height="32" Background="LightYellow"  x:Name="cr33"/>
+                        <Button Content="33" Width="32" Height="32" Background="LightYellow"  x:Name="cr33"/>
                     </Border>
                 </Border>
 
@@ -72,55 +77,55 @@
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr41" Width="32" Height="32" Background="LightYellow" x:Name="cr41" />
+                        <Button Content="41" Width="32" Height="32" Background="LightYellow" x:Name="cr41" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr51" Width="32" Height="32" Background="LightYellow" x:Name="cr51"  />
+                        <Button Content="51" Width="32" Height="32" Background="LightYellow" x:Name="cr51"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr61" Width="32" Height="32" Background="LightYellow" x:Name="cr61"  />
+                        <Button Content="61" Width="32" Height="32" Background="LightYellow" x:Name="cr61"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr42" Width="32" Height="32" Background="LightYellow" x:Name="cr42"  />
+                        <Button Content="42" Width="32" Height="32" Background="LightYellow" x:Name="cr42"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr52" Width="32" Height="32" Background="LightYellow" x:Name="cr52"  />
+                        <Button Content="52" Width="32" Height="32" Background="LightYellow" x:Name="cr52"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr62" Width="32" Height="32" Background="LightYellow" x:Name="cr62" />
+                        <Button Content="62" Width="32" Height="32" Background="LightYellow" x:Name="cr62" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr43" Width="32" Height="32" Background="LightYellow" x:Name="cr43"/>
+                        <Button Content="43" Width="32" Height="32" Background="LightYellow" x:Name="cr43"/>
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr53" Width="32" Height="32" Background="LightYellow" x:Name="cr53" />
+                        <Button Content="53" Width="32" Height="32" Background="LightYellow" x:Name="cr53" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr63" Width="32" Height="32" Background="LightYellow"  x:Name="cr63" />
+                        <Button Content="63" Width="32" Height="32" Background="LightYellow"  x:Name="cr63" />
                     </Border>
                 </Border>
 
@@ -130,56 +135,56 @@
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr71" Width="32" Height="32" Background="LightYellow" x:Name="cr71"  />
+                        <Button Content="71" Width="32" Height="32" Background="LightYellow" x:Name="cr71"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr81" Width="32" Height="32" Background="LightYellow"  x:Name="cr81" />
+                        <Button Content="81" Width="32" Height="32" Background="LightYellow"  x:Name="cr81" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr91" Width="32" Height="32" Background="LightYellow"  x:Name="cr91" />
+                        <Button Content="91" Width="32" Height="32" Background="LightYellow"  x:Name="cr91" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr72" Width="32" Height="32" Background="LightYellow"  x:Name="cr72" />
+                        <Button Content="72" Width="32" Height="32" Background="LightYellow"  x:Name="cr72" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr82" Width="32" Height="32" Background="LightYellow"  x:Name="cr82" />
+                        <Button Content="82" Width="32" Height="32" Background="LightYellow"  x:Name="cr82" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr92" Width="32" Height="32" Background="LightYellow"  x:Name="cr92" />
+                        <Button Content="92" Width="32" Height="32" Background="LightYellow"  x:Name="cr92" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr73" Width="32" Height="32" Background="LightYellow"  x:Name="cr73" />
+                        <Button Content="73" Width="32" Height="32" Background="LightYellow"  x:Name="cr73" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr83" Width="32" Height="32" Background="LightYellow"  x:Name="cr83" />
+                        <Button Content="83" Width="32" Height="32" Background="LightYellow"  x:Name="cr83" />
                     </Border>
                 </Border>
 
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr93" Width="32" Height="32" Background="LightYellow"  x:Name="cr93" />
+                        <Button Content="93" Width="32" Height="32" Background="LightYellow"  x:Name="cr93" />
                     </Border>
                 </Border>
 
@@ -189,55 +194,55 @@
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr14" Width="32" Height="32" Background="LightYellow"  x:Name="cr14" />
+                        <Button Content="14" Width="32" Height="32" Background="LightYellow"  x:Name="cr14" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr24" Width="32" Height="32" Background="LightYellow"   x:Name="cr24" />
+                        <Button Content="24" Width="32" Height="32" Background="LightYellow"   x:Name="cr24" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr34" Width="32" Height="32" Background="LightYellow"   x:Name="cr34" />
+                        <Button Content="34" Width="32" Height="32" Background="LightYellow"   x:Name="cr34" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border>
-                        <Button Content="cr15" Width="32" Height="32" Background="LightYellow"   x:Name="cr15" />
+                        <Button Content="15" Width="32" Height="32" Background="LightYellow"   x:Name="cr15" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr25" Width="32" Height="32" Background="LightYellow"   x:Name="cr25" />
+                        <Button Content="25" Width="32" Height="32" Background="LightYellow"   x:Name="cr25" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr35" Width="32" Height="32" Background="LightYellow"   x:Name="cr35" />
+                        <Button Content="35" Width="32" Height="32" Background="LightYellow"   x:Name="cr35" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr16" Width="32" Height="32" Background="LightYellow" x:Name="cr16" />
+                        <Button Content="16" Width="32" Height="32" Background="LightYellow" x:Name="cr16" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr26" Width="32" Height="32" Background="LightYellow"   x:Name="cr26" />
+                        <Button Content="26" Width="32" Height="32" Background="LightYellow"   x:Name="cr26" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr36" Width="32" Height="32" Background="LightYellow"  x:Name="cr36" />
+                        <Button Content="36" Width="32" Height="32" Background="LightYellow"  x:Name="cr36" />
                     </Border>
                 </Border>
 
@@ -246,55 +251,55 @@
             <UniformGrid x:Name="Region5" Columns="3" Rows="3" Height="96" Width="96">
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr44" Width="32" Height="32" Background="LightYellow" x:Name="cr44" />
+                        <Button Content="44" Width="32" Height="32" Background="LightYellow" x:Name="cr44" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr54" Width="32" Height="32" Background="LightYellow" x:Name="cr54" />
+                        <Button Content="54" Width="32" Height="32" Background="LightYellow" x:Name="cr54" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr64" Width="32" Height="32" Background="LightYellow" x:Name="cr64"  />
+                        <Button Content="64" Width="32" Height="32" Background="LightYellow" x:Name="cr64"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr45" Width="32" Height="32" Background="LightYellow" x:Name="cr45"  />
+                        <Button Content="45" Width="32" Height="32" Background="LightYellow" x:Name="cr45"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr55" Width="32" Height="32" Background="LightYellow"  x:Name="cr55" />
+                        <Button Content="55" Width="32" Height="32" Background="LightYellow"  x:Name="cr55" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr65" Width="32" Height="32" Background="LightYellow" x:Name="cr65"  />
+                        <Button Content="65" Width="32" Height="32" Background="LightYellow" x:Name="cr65"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr46" Width="32" Height="32" Background="LightYellow" x:Name="cr46"  />
+                        <Button Content="46" Width="32" Height="32" Background="LightYellow" x:Name="cr46"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr56" Width="32" Height="32" Background="LightYellow" x:Name="cr56"  />
+                        <Button Content="56" Width="32" Height="32" Background="LightYellow" x:Name="cr56"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr66" Width="32" Height="32" Background="LightYellow"  x:Name="cr66" />
+                        <Button Content="66" Width="32" Height="32" Background="LightYellow"  x:Name="cr66" />
                     </Border>
                 </Border>
 
@@ -304,104 +309,105 @@
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr74" Width="32" Height="32" Background="LightYellow" x:Name="cr74"  />
+                        <Button Content="74" Width="32" Height="32" Background="LightYellow" x:Name="cr74"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr84" Width="32" Height="32" Background="LightYellow" x:Name="cr84"  />
+                        <Button Content="84" Width="32" Height="32" Background="LightYellow" x:Name="cr84"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr94" Width="32" Height="32" Background="LightYellow"  x:Name="cr94"  />
+                        <Button Content="94" Width="32" Height="32" Background="LightYellow"  x:Name="cr94"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr75" Width="32" Height="32" Background="LightYellow"  x:Name="cr75"  />
+                        <Button Content="75" Width="32" Height="32" Background="LightYellow"  x:Name="cr75"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr85" Width="32" Height="32" Background="LightYellow" x:Name="cr85"  />
+                        <Button Content="85" Width="32" Height="32" Background="LightYellow" x:Name="cr85"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr95" Width="32" Height="32" Background="LightYellow" x:Name="cr95"  />
+                        <Button Content="95" Width="32" Height="32" Background="LightYellow" x:Name="cr95"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr76" Width="32" Height="32" Background="LightYellow" x:Name="cr76" />
+                        <Button Content="76" Width="32" Height="32" Background="LightYellow" x:Name="cr76" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr86" Width="32" Height="32" Background="LightYellow" x:Name="cr86"/>
+                        <Button Content="86" Width="32" Height="32" Background="LightYellow" x:Name="cr86"/>
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr96" Width="32" Height="32" Background="LightYellow" x:Name="cr96"  />
+                        <Button Content="96" Width="32" Height="32" Background="LightYellow" x:Name="cr96"  />
                     </Border>
                 </Border>
+                <Menu/>
 
             </UniformGrid>
 
             <UniformGrid x:Name="Region7" Columns="3" Rows="3" Height="96" Width="96">
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr17" Width="32" Height="32" Background="LightYellow" x:Name="cr17" />
+                        <Button Content="17" Width="32" Height="32" Background="LightYellow" x:Name="cr17" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border>
-                        <Button Content="cr27" Width="32" Height="32" Background="LightYellow" x:Name="cr27"  />
+                        <Button Content="27" Width="32" Height="32" Background="LightYellow" x:Name="cr27"  />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr37" Width="32" Height="32" Background="LightYellow" x:Name="cr37"  />
+                        <Button Content="37" Width="32" Height="32" Background="LightYellow" x:Name="cr37"  />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr18" Width="32" Height="32" Background="LightYellow"  x:Name="cr18" />
+                        <Button Content="18" Width="32" Height="32" Background="LightYellow"  x:Name="cr18" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr28" Width="32" Height="32" Background="LightYellow" x:Name="cr28"  />
+                        <Button Content="28" Width="32" Height="32" Background="LightYellow" x:Name="cr28"  />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr38" Width="32" Height="32" Background="LightYellow" x:Name="cr38"  />
+                        <Button Content="38" Width="32" Height="32" Background="LightYellow" x:Name="cr38"  />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr19" Width="32" Height="32" Background="LightYellow"  x:Name="cr19" />
+                        <Button Content="19" Width="32" Height="32" Background="LightYellow"  x:Name="cr19" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr29" Width="32" Height="32" Background="LightYellow" x:Name="cr29"  />
+                        <Button Content="29" Width="32" Height="32" Background="LightYellow" x:Name="cr29"  />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr39" Width="32" Height="32" Background="LightYellow"  x:Name="cr39" />
+                        <Button Content="39" Width="32" Height="32" Background="LightYellow"  x:Name="cr39" />
                     </Border>
                 </Border>
             </UniformGrid>
@@ -409,54 +415,54 @@
             <UniformGrid x:Name="Region8" Columns="3" Rows="3" Height="96" Width="96">
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr47" Width="32" Height="32" Background="LightYellow" x:Name="cr47" />
+                        <Button Content="47" Width="32" Height="32" Background="LightYellow" x:Name="cr47" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr57" Width="32" Height="32" Background="LightYellow" x:Name="cr57"  />
+                        <Button Content="57" Width="32" Height="32" Background="LightYellow" x:Name="cr57"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr67" Width="32" Height="32" Background="LightYellow"  x:Name="cr67" />
+                        <Button Content="67" Width="32" Height="32" Background="LightYellow"  x:Name="cr67" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr48" Width="32" Height="32" Background="LightYellow"  x:Name="cr48" />
+                        <Button Content="48" Width="32" Height="32" Background="LightYellow"  x:Name="cr48" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr58" Width="32" Height="32" Background="LightYellow"  x:Name="cr58" />
+                        <Button Content="58" Width="32" Height="32" Background="LightYellow"  x:Name="cr58" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr68" Width="32" Height="32" Background="LightYellow"  x:Name="cr68" />
+                        <Button Content="68" Width="32" Height="32" Background="LightYellow"  x:Name="cr68" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr49" Width="32" Height="32" Background="LightYellow" x:Name="cr49"  />
+                        <Button Content="49" Width="32" Height="32" Background="LightYellow" x:Name="cr49"  />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr59" Width="32" Height="32" Background="LightYellow"  x:Name="cr59" />
+                        <Button Content="59" Width="32" Height="32" Background="LightYellow"  x:Name="cr59" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr69" Width="32" Height="32" Background="LightYellow"  x:Name="cr69" />
+                        <Button Content="69" Width="32" Height="32" Background="LightYellow"  x:Name="cr69" />
                     </Border>
                 </Border>
             </UniformGrid>
@@ -465,74 +471,75 @@
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr77" Width="32" Height="32" Background="LightYellow"  x:Name="cr77" />
+                        <Button Content="77" Width="32" Height="32" Background="LightYellow"  x:Name="cr77" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr87" Width="32" Height="32" Background="LightYellow"  x:Name="cr87" />
+                        <Button Content="87" Width="32" Height="32" Background="LightYellow"  x:Name="cr87" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr97" Width="32" Height="32" Background="LightYellow"  x:Name="cr97" />
+                        <Button Content="97" Width="32" Height="32" Background="LightYellow"  x:Name="cr97" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr78" Width="32" Height="32" Background="LightYellow"  x:Name="cr78" />
+                        <Button Content="78" Width="32" Height="32" Background="LightYellow"  x:Name="cr78" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr88" Width="32" Height="32" Background="LightYellow"  x:Name="cr88" />
+                        <Button Content="88" Width="32" Height="32" Background="LightYellow"  x:Name="cr88" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr98" Width="32" Height="32" Background="LightYellow"  x:Name="cr98" />
+                        <Button Content="98" Width="32" Height="32" Background="LightYellow"  x:Name="cr98" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr79" Width="32" Height="32" Background="LightYellow"  x:Name="cr79" />
+                        <Button Content="79" Width="32" Height="32" Background="LightYellow"  x:Name="cr79" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr89" Width="32" Height="32" Background="LightYellow"  x:Name="cr89" />
+                        <Button Content="89" Width="32" Height="32" Background="LightYellow"  x:Name="cr89" />
                     </Border>
                 </Border>
 
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="cr99" Width="32" Height="32" Background="LightYellow"  x:Name="cr99" />
+                        <Button Content="99" Width="32" Height="32" Background="LightYellow"  x:Name="cr99" />
                     </Border>
                 </Border>
             </UniformGrid>
 
         </UniformGrid>
-        <TextBox BorderBrush="Black" 
-                     BorderThickness="1" 
-                     HorizontalAlignment="Left" 
-                     Margin="328,65,0,0"  
-                     TextWrapping="Wrap" 
-                     Text="TextBox" 
+
+        <TextBlock HorizontalAlignment="Left" 
+                     Margin="340,66,0,0" 
+                     x:Name="textBox1"
+                     FontFamily="Consolas"
                      VerticalAlignment="Top" 
                      Height="270" 
-                     Width="420"/>
+                     Width="380" 
+                    TextWrapping="Wrap" />
+
         <UniformGrid Margin="355,365,37,36">
             <StackPanel Orientation="Horizontal">
-                <Button Content="View Candidates" HorizontalAlignment="Right" VerticalAlignment="Top" Width="125" Click="Button_Click_1" Margin="0,-8,0,0"/>
+                <Button Content="View Candidates" HorizontalAlignment="Right" VerticalAlignment="Top" Width="125" Margin="0,-8,0,0"/>
                 <Button Content="View Values" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125"/>
-                <Button Content="Clear Text" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"/>
+                <Button Content="Clear Text" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Click="ButtonClearText_Click"/>
             </StackPanel>
         </UniformGrid>
     </Grid>
