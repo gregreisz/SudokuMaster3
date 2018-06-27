@@ -1,545 +1,464 @@
-﻿<Window x:Class="SudokuMaster3.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        FontFamily="Consolas"
-        FontWeight="Bold"
-        Title="Sudoku Master 3" Height="450" Width="1000">
+﻿<Window x:Class="SudokuMaster3.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sudokuMaster3="clr-namespace:SudokuMaster3" mc:Ignorable="d" FontFamily="Consolas" FontWeight="Bold" Title="Sudoku Master 3" Height="450" Width="1000">
+    <Window.Resources>
+        <!-- Having CommandParameter is crucial here -->
+        <ContextMenu x:Key="contextMenu">
+            <MenuItem Header="Make 1" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 2" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 3" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 4" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 5" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 6" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 7" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 8" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <Separator />
+            <MenuItem Header="Make 9" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+        </ContextMenu>
+    </Window.Resources>
     <Grid ShowGridLines="False" Margin="20,0,0,0">
         <DockPanel Margin="10">
             <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0,0,0,10">
-                <Button Name="ButtonOpenFile" Click="ButtonOpenFile_Click">Open file</Button>
+                <Button Name="ButtonOpenFile" Click="ButtonOpenFile_Click" Width="125">Open file</Button>
             </WrapPanel>
         </DockPanel>
-        <UniformGrid Height="288" Width="288" HorizontalAlignment="Left" x:Name="UniformGrid">
-
+        <UniformGrid Height="288" Width="288" x:Name="PuzzleGrid" HorizontalAlignment="Left">
             <UniformGrid x:Name="Region1" Columns="3" Rows="3" Height="96" Width="96">
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="11" Width="32" Height="32" Background="LightYellow" x:Name="cr11"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr11"></sudokuMaster3:CustomButton>
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="21" Width="32" Height="32" Background="LightYellow" x:Name="cr21"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr21" />
                     </Border>
                 </Border>
-
-                <Border  BorderBrush="Red" BorderThickness="0,0,1,0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="31" Width="32" Height="32" Background="LightYellow" x:Name="cr31"/>
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="12" Width="32" Height="32" Background="LightYellow" x:Name="cr12" />
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="22" Width="32" Height="32" Background="LightYellow" x:Name="cr22" />
-                    </Border>
-                </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="32" Width="32" Height="32" Background="LightYellow" x:Name="cr32"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr31" />
                     </Border>
                 </Border>
-
+                <Border BorderBrush="Red" BorderThickness="0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr12" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr22" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0,0,1,0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr32" />
+                    </Border>
+                </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="13" Width="32" Height="32" Background="LightYellow"  x:Name="cr13"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr13" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="23" Width="32" Height="32" Background="LightYellow" x:Name="cr23"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr23" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="33" Width="32" Height="32" Background="LightYellow"  x:Name="cr33"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr33" />
                     </Border>
                 </Border>
-
             </UniformGrid>
-
-            <UniformGrid x:Name ="Region2" Columns="3" Rows="3" Height="96" Width="96">
-
+            <UniformGrid x:Name="Region2" Columns="3" Rows="3" Height="96" Width="96">
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="41" Width="32" Height="32" Background="LightYellow" x:Name="cr41" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr41" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="51" Width="32" Height="32" Background="LightYellow" x:Name="cr51"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr51" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="61" Width="32" Height="32" Background="LightYellow" x:Name="cr61"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr61" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="42" Width="32" Height="32" Background="LightYellow" x:Name="cr42"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr42" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="52" Width="32" Height="32" Background="LightYellow" x:Name="cr52"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr52" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="62" Width="32" Height="32" Background="LightYellow" x:Name="cr62" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr62" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="43" Width="32" Height="32" Background="LightYellow" x:Name="cr43"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr43" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="53" Width="32" Height="32" Background="LightYellow" x:Name="cr53" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr53" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="63" Width="32" Height="32" Background="LightYellow"  x:Name="cr63" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr63" />
                     </Border>
                 </Border>
-
             </UniformGrid>
-
             <UniformGrid x:Name="Region3" Columns="3" Rows="3" Height="96" Width="96">
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="71" Width="32" Height="32" Background="LightYellow" x:Name="cr71"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr71" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="81" Width="32" Height="32" Background="LightYellow"  x:Name="cr81" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr81" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="91" Width="32" Height="32" Background="LightYellow"  x:Name="cr91" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr91" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="72" Width="32" Height="32" Background="LightYellow"  x:Name="cr72" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr72" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="82" Width="32" Height="32" Background="LightYellow"  x:Name="cr82" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr82" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="92" Width="32" Height="32" Background="LightYellow"  x:Name="cr92" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr92" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="73" Width="32" Height="32" Background="LightYellow"  x:Name="cr73" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr73" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="83" Width="32" Height="32" Background="LightYellow"  x:Name="cr83" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr83" />
                     </Border>
                 </Border>
-
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="93" Width="32" Height="32" Background="LightYellow"  x:Name="cr93" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr93" />
                     </Border>
                 </Border>
-
             </UniformGrid>
-
             <UniformGrid x:Name="Region4" Columns="3" Rows="3" Height="96" Width="96">
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="14" Width="32" Height="32" Background="LightYellow"  x:Name="cr14" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr14" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="24" Width="32" Height="32" Background="LightYellow"   x:Name="cr24" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr24" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="34" Width="32" Height="32" Background="LightYellow"   x:Name="cr34" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr34" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border>
-                        <Button Content="15" Width="32" Height="32" Background="LightYellow"   x:Name="cr15" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr15" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="25" Width="32" Height="32" Background="LightYellow"   x:Name="cr25" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr25" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="35" Width="32" Height="32" Background="LightYellow"   x:Name="cr35" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr35" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="16" Width="32" Height="32" Background="LightYellow" x:Name="cr16" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr16" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="26" Width="32" Height="32" Background="LightYellow"   x:Name="cr26" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr26" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="36" Width="32" Height="32" Background="LightYellow"  x:Name="cr36" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr36" />
                     </Border>
                 </Border>
-
             </UniformGrid>
-
             <UniformGrid x:Name="Region5" Columns="3" Rows="3" Height="96" Width="96">
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="44" Width="32" Height="32" Background="LightYellow" x:Name="cr44" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr44" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="54" Width="32" Height="32" Background="LightYellow" x:Name="cr54" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr54" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="64" Width="32" Height="32" Background="LightYellow" x:Name="cr64"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr64" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="45" Width="32" Height="32" Background="LightYellow" x:Name="cr45"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr45" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="55" Width="32" Height="32" Background="LightYellow"  x:Name="cr55" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr55" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="65" Width="32" Height="32" Background="LightYellow" x:Name="cr65"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr65" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="46" Width="32" Height="32" Background="LightYellow" x:Name="cr46"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr46" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="56" Width="32" Height="32" Background="LightYellow" x:Name="cr56"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr56" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,1,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="66" Width="32" Height="32" Background="LightYellow"  x:Name="cr66" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr66" />
                     </Border>
                 </Border>
-
             </UniformGrid>
-
             <UniformGrid x:Name="Region6" Columns="3" Rows="3" Height="96" Width="96">
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="74" Width="32" Height="32" Background="LightYellow" x:Name="cr74"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr74" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="84" Width="32" Height="32" Background="LightYellow" x:Name="cr84"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr84" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="94" Width="32" Height="32" Background="LightYellow"  x:Name="cr94"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr94" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="75" Width="32" Height="32" Background="LightYellow"  x:Name="cr75"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr75" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="85" Width="32" Height="32" Background="LightYellow" x:Name="cr85"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr85" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="95" Width="32" Height="32" Background="LightYellow" x:Name="cr95"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr95" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="76" Width="32" Height="32" Background="LightYellow" x:Name="cr76" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr76" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="86" Width="32" Height="32" Background="LightYellow" x:Name="cr86"/>
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr86" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0,0,0,1">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="96" Width="32" Height="32" Background="LightYellow" x:Name="cr96"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr96" />
                     </Border>
                 </Border>
-                <Menu/>
-
+                <Menu />
             </UniformGrid>
-
             <UniformGrid x:Name="Region7" Columns="3" Rows="3" Height="96" Width="96">
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="17" Width="32" Height="32" Background="LightYellow" x:Name="cr17" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr17" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border>
-                        <Button Content="27" Width="32" Height="32" Background="LightYellow" x:Name="cr27"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr27" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="37" Width="32" Height="32" Background="LightYellow" x:Name="cr37"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr37" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="18" Width="32" Height="32" Background="LightYellow"  x:Name="cr18" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr18" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="28" Width="32" Height="32" Background="LightYellow" x:Name="cr28"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr28" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="38" Width="32" Height="32" Background="LightYellow" x:Name="cr38"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr38" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="19" Width="32" Height="32" Background="LightYellow"  x:Name="cr19" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr19" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="29" Width="32" Height="32" Background="LightYellow" x:Name="cr29"  />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr29" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="39" Width="32" Height="32" Background="LightYellow"  x:Name="cr39" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr39" />
                     </Border>
                 </Border>
             </UniformGrid>
-
             <UniformGrid x:Name="Region8" Columns="3" Rows="3" Height="96" Width="96">
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="47" Width="32" Height="32" Background="LightYellow" x:Name="cr47" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr47" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="57" Width="32" Height="32" Background="LightYellow" x:Name="cr57"  />
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0,0,1,0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="67" Width="32" Height="32" Background="LightYellow"  x:Name="cr67" />
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="48" Width="32" Height="32" Background="LightYellow"  x:Name="cr48" />
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="58" Width="32" Height="32" Background="LightYellow"  x:Name="cr58" />
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0,0,1,0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="68" Width="32" Height="32" Background="LightYellow"  x:Name="cr68" />
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="49" Width="32" Height="32" Background="LightYellow" x:Name="cr49"  />
-                    </Border>
-                </Border>
-
-                <Border BorderBrush="Red" BorderThickness="0">
-                    <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="59" Width="32" Height="32" Background="LightYellow"  x:Name="cr59" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr57" />
                     </Border>
                 </Border>
                 <Border BorderBrush="Red" BorderThickness="0,0,1,0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="69" Width="32" Height="32" Background="LightYellow"  x:Name="cr69" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr67" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr48" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr58" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0,0,1,0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr68" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr49" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr59" />
+                    </Border>
+                </Border>
+                <Border BorderBrush="Red" BorderThickness="0,0,1,0">
+                    <Border BorderBrush="Black" BorderThickness="0">
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr69" />
                     </Border>
                 </Border>
             </UniformGrid>
-
             <UniformGrid x:Name="Region9" Columns="3" Rows="3" Height="96" Width="96">
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="77" Width="32" Height="32" Background="LightYellow"  x:Name="cr77" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr77" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="87" Width="32" Height="32" Background="LightYellow"  x:Name="cr87" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr87" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="97" Width="32" Height="32" Background="LightYellow"  x:Name="cr97" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr97" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="78" Width="32" Height="32" Background="LightYellow"  x:Name="cr78" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr78" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="88" Width="32" Height="32" Background="LightYellow"  x:Name="cr88" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr88" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="98" Width="32" Height="32" Background="LightYellow"  x:Name="cr98" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr98" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="79" Width="32" Height="32" Background="LightYellow"  x:Name="cr79" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr79" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="89" Width="32" Height="32" Background="LightYellow"  x:Name="cr89" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr89" />
                     </Border>
                 </Border>
-
                 <Border BorderBrush="Red" BorderThickness="0">
                     <Border BorderBrush="Black" BorderThickness="0">
-                        <Button Content="99" Width="32" Height="32" Background="LightYellow"  x:Name="cr99" />
+                        <sudokuMaster3:CustomButton Width="32" Height="32" x:Name="cr99" />
                     </Border>
                 </Border>
             </UniformGrid>
-
         </UniformGrid>
-
-        <TextBlock HorizontalAlignment="Left" 
-                     Margin="340,66,0,0" 
-                     x:Name="textBox1"
-                     FontFamily="Consolas"
-                     VerticalAlignment="Top" 
-                     Height="270" 
-                     Width="380" 
-                    TextWrapping="Wrap" />
-
+        <TextBlock HorizontalAlignment="Left" Margin="340,66,0,0" x:Name="textBox1" FontFamily="Consolas" VerticalAlignment="Top" Height="270" Width="380" TextWrapping="Wrap" />
         <UniformGrid Margin="355,365,37,36">
             <StackPanel Orientation="Horizontal">
-                <Button Content="View Candidates" HorizontalAlignment="Right" VerticalAlignment="Top" Width="125" Margin="0,-8,0,0"/>
-                <Button Content="View Values" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125"/>
-                <Button Content="Clear Text" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Click="ButtonClearText_Click"/>
+                <Button Content="View Candidates" HorizontalAlignment="Right" VerticalAlignment="Top" Width="125" Margin="0,-8,0,0" />
+                <Button Content="View Values" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" />
+                <Button Content="Clear Text" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Click="ButtonClearText_Click" />
             </StackPanel>
         </UniformGrid>
     </Grid>
