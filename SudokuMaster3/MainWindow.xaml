@@ -1,31 +1,47 @@
-﻿<Window x:Class="SudokuMaster3.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sudokuMaster3="clr-namespace:SudokuMaster3" mc:Ignorable="d" FontFamily="Consolas" FontWeight="Bold" Title="Sudoku Master 3" Height="450" Width="1000">
+﻿<Window x:Class="SudokuMaster3.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:sudokuMaster3="clr-namespace:SudokuMaster3" 
+        mc:Ignorable="d" 
+        FontFamily="Consolas" 
+        FontWeight="Bold" 
+        Title="Sudoku Master 3" Height="450" Width="800">
     <Window.Resources>
         <!-- Having CommandParameter is crucial here -->
         <ContextMenu x:Key="contextMenu">
-            <MenuItem Header="Make 1" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 2" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 3" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 4" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 5" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 6" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 7" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 8" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <Separator />
-            <MenuItem Header="Make 9" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="1" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="2" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="3" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="4" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="5" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="6" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="7" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="8" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="9" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="Erase" Click="Button_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
         </ContextMenu>
     </Window.Resources>
     <Grid ShowGridLines="False" Margin="20,0,0,0">
-        <DockPanel Margin="10">
-            <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0,0,0,10">
-                <Button Name="ButtonOpenFile" Click="ButtonOpenFile_Click" Width="125">Open file</Button>
-            </WrapPanel>
+        <DockPanel x:Name="dockPanel1" LastChildFill="False">
+            <Menu Height="23" x:Name="mainMenu" DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" x:Name="menuOpen" Click="MenuOpen_OnClick" />
+                    <MenuItem Header="_Save" x:Name="menuSave" />
+                    <Separator />
+                    <MenuItem Header="E_xit" x:Name="menuExit" />
+                </MenuItem>
+                <MenuItem Header="_Tools">
+                    <MenuItem Header="Show _Markups" x:Name="menuMarkups"></MenuItem>
+                    <MenuItem Header="Show _Candidates" x:Name="menuCandidates"></MenuItem>
+                    <Separator />
+                    <MenuItem Header="Clear _Text" x:Name="menuClearText" Click="MenuClearText_OnClick" />
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About"></MenuItem>
+                </MenuItem>
+            </Menu>
         </DockPanel>
         <UniformGrid Height="288" Width="288" x:Name="PuzzleGrid" HorizontalAlignment="Left">
             <UniformGrid x:Name="Region1" Columns="3" Rows="3" Height="96" Width="96">
@@ -455,11 +471,7 @@
         </UniformGrid>
         <TextBlock HorizontalAlignment="Left" Margin="340,66,0,0" x:Name="textBox1" FontFamily="Consolas" VerticalAlignment="Top" Height="270" Width="380" TextWrapping="Wrap" />
         <UniformGrid Margin="355,365,37,36">
-            <StackPanel Orientation="Horizontal">
-                <Button Content="View Candidates" HorizontalAlignment="Right" VerticalAlignment="Top" Width="125" Margin="0,-8,0,0" />
-                <Button Content="View Values" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" />
-                <Button Content="Clear Text" Margin="10,-8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Click="ButtonClearText_Click" />
-            </StackPanel>
+            <StackPanel Orientation="Horizontal" />
         </UniformGrid>
     </Grid>
 </Window>
