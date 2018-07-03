@@ -21,7 +21,11 @@ namespace SudokuMaster3
 
     public partial class MainWindow
     {
-        private List<CustomButton> customButtonList = new List<CustomButton>();
+        private readonly List<CustomButton> customButtonList = new List<CustomButton>();
+
+        private const int buttonHeight = 30;
+
+        private const int buttonWidth = 30;
 
         private readonly int[,] CellValues = new int[10, 10];
 
@@ -42,12 +46,68 @@ namespace SudokuMaster3
 
         private void InitializeBoard()
         {
-            // The buttons were added in the XAML so we are getting references to them here.
+
             foreach (int row in Enumerable.Range(1, 9))
             {
                 foreach (int col in Enumerable.Range(1, 9))
                 {
-                    GetCustomButtonReference($"cr{col}{row}");
+                    var customButton = new CustomButton
+                    {
+                        Height = buttonHeight,
+                        Width = buttonWidth,
+                        Name = $"cr{col}{row}",
+                        Content = $"{col}{row}"
+                    };
+                    customButton.Click += CustomButton_Click;
+                    PuzzleGrid.Children.Add(customButton);
+                    customButtonList.Add(customButton);
+                }
+            }
+        }
+
+        private void CustomButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem mi)
+            {
+                if (mi.CommandParameter is ContextMenu cm)
+                {
+                    if (cm.PlacementTarget is CustomButton customButton)
+                    {
+                        if (customButton.HasStartValue)
+                        {
+                            MessageBox.Show("This cell is contains a start value and cannot be changed.");
+                            return;
+                        }
+
+                        var content = mi.Header.ToString();
+
+                        int col = int.Parse(customButton.Name.Substring(2, 1));
+                        int row = int.Parse(customButton.Name.Substring(3, 1));
+
+                        if (IsMoveValid(col, row, int.Parse(content)))
+                        {
+                            var oldString = FileContents;
+                            CellValues[col, row] = int.Parse(content);
+
+                            var sb = new StringBuilder(oldString);
+                            var startPosition = ConvertToLinear(col, row);
+                            sb.Remove(startPosition, 1);
+                            sb.Insert(startPosition, content);
+                            var newString = sb.ToString();
+                            FileContents = newString;
+                            SetFontOnly(ref customButton);
+                            customButton.Content = content;
+                            RefreshGrid();
+                            ShowMarkups();
+
+                        }
+
+                        else if (content == "Erase")
+                        {
+                            CellValues[col, row] = 0;
+                        }
+                    }
+
                 }
             }
         }
@@ -70,7 +130,9 @@ namespace SudokuMaster3
                 foreach (var col in Enumerable.Range(1, 9))
                 {
                     var value = int.Parse(contents[counter++].ToString());
-                    var customButton = GetCustomButtonReference($"cr{col}{row}");
+                    var customButton = customButtonList.Single(cb => cb.Name == $"cr{col}{row}"); 
+                    if (customButton == null) return;
+
                     if (value > 0)
                     {
                         customButton.HasStartValue = true;
@@ -80,7 +142,7 @@ namespace SudokuMaster3
                     }
                     else if (value == 0)
                     {
-                        customButton.ContextMenu = (ContextMenu)FindResource("contextMenu");
+                        customButton.ContextMenu = FindResource("contextMenu1") as ContextMenu;
                         customButton.HasStartValue = false;
                         SetMarkupCell(ref customButton);
                         customButton.Content = string.Empty;
@@ -113,12 +175,15 @@ namespace SudokuMaster3
             {
                 foreach (var col in Enumerable.Range(1, 9))
                 {
-                    var customButton = GetCustomButtonReference($"cr{col}{row}");
+                    var customButton = customButtonList.Single(cb => cb.Name == $"cr{col}{row}");
+                    if (customButton == null) return;
+
                     if (customButton.HasStartValue)
                     {
                         SetLockedCell(ref customButton);
                         continue;
                     }
+
                     SetMarkupCell(ref customButton);
                     var content = TransformCandidateValues(FindCandidates(col, row)).Trim();
                     customButton.Content = content;
@@ -136,10 +201,10 @@ namespace SudokuMaster3
                 foreach (var col in Enumerable.Range(1, 9))
                 {
                     var value = int.Parse(FileContents[counter++].ToString());
-                    var customButton = GetCustomButtonReference($"cr{col}{row}");
+                    var customButton = (CustomButton)FindName($"cr{col}{row}");
+                    if (customButton == null) return;
                     if (value > 0)
                     {
-                        //todo: Fix this
                         customButton.Content = $"{value}";
                         SetLockedCell(ref customButton);
                     }
@@ -577,12 +642,6 @@ namespace SudokuMaster3
             }
 
             return true;
-        }
-
-        private CustomButton GetCustomButtonReference(string name)
-        {
-            var customButton = (CustomButton)PuzzleGrid.FindName(name);
-            return customButton;
         }
 
         private string LoadGameFromDisk()
