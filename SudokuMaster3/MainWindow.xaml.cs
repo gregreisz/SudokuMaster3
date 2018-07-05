@@ -17,6 +17,13 @@ namespace SudokuMaster3
 
         public int Value { get; set; }
 
+        public int Region { get; set; }
+
+        public int Row { get; set; }
+
+        public int Column { get; set; }
+
+        public List<int> Candidates { get; set; }
     }
 
     public partial class MainWindow
@@ -27,9 +34,8 @@ namespace SudokuMaster3
 
         private const int buttonWidth = 30;
 
-        private readonly int[,] CellValues = new int[10, 10];
-
         private string FileContents { get; set; }
+
 
         public MainWindow()
         {
@@ -44,11 +50,15 @@ namespace SudokuMaster3
                 : string.Empty;
         }
 
+        private static bool IsNumeric(object expression)
+        {
+            bool isNumber = double.TryParse(Convert.ToString(expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out _);
+            return isNumber;
+        }
+
         private void InitializeBoard()
         {
-
             foreach (int row in Enumerable.Range(1, 9))
-            {
                 foreach (int col in Enumerable.Range(1, 9))
                 {
                     var customButton = new CustomButton
@@ -56,72 +66,297 @@ namespace SudokuMaster3
                         Height = buttonHeight,
                         Width = buttonWidth,
                         Name = $"cr{col}{row}",
-                        Content = $"{col}{row}"
+                        Content = $"{col}{row}",
+                        Region = GetRegion(col, row),
+                        Row = row,
+                        Column = col,
+                        Value = 0
                     };
-                    customButton.Click += CustomButton_Click;
+
+                    switch (int.Parse($"{col}{row}"))
+                    {
+                        case 11:
+                        case 21:
+                        case 31:
+                        case 12:
+                        case 22:
+                        case 32:
+                        case 13:
+                        case 23:
+                        case 33:
+                            customButton.Region = 1;
+                            break;
+                        case 41:
+                        case 51:
+                        case 61:
+                        case 42:
+                        case 52:
+                        case 62:
+                        case 43:
+                        case 53:
+                        case 63:
+                            customButton.Region = 2;
+                            break;
+                        case 71:
+                        case 81:
+                        case 91:
+                        case 72:
+                        case 82:
+                        case 92:
+                        case 73:
+                        case 83:
+                        case 93:
+                            customButton.Region = 3;
+                            break;
+                        case 14:
+                        case 24:
+                        case 34:
+                        case 15:
+                        case 25:
+                        case 35:
+                        case 16:
+                        case 26:
+                        case 36:
+                            customButton.Region = 4;
+                            break;
+                        case 44:
+                        case 54:
+                        case 64:
+                        case 45:
+                        case 55:
+                        case 65:
+                        case 46:
+                        case 56:
+                        case 66:
+                            customButton.Region = 5;
+                            break;
+                        case 74:
+                        case 84:
+                        case 94:
+                        case 75:
+                        case 85:
+                        case 95:
+                        case 76:
+                        case 86:
+                        case 96:
+                            customButton.Region = 6;
+                            break;
+                        case 17:
+                        case 27:
+                        case 37:
+                        case 18:
+                        case 28:
+                        case 38:
+                        case 19:
+                        case 29:
+                        case 39:
+                            customButton.Region = 7;
+                            break;
+                        case 47:
+                        case 57:
+                        case 67:
+                        case 48:
+                        case 58:
+                        case 68:
+                        case 49:
+                        case 59:
+                        case 69:
+                            customButton.Region = 8;
+                            break;
+                        case 77:
+                        case 87:
+                        case 97:
+                        case 78:
+                        case 88:
+                        case 98:
+                        case 79:
+                        case 89:
+                        case 99:
+                            customButton.Region = 9;
+                            break;
+                        default:
+                            customButton.Region = 0;
+                            break;
+                    }
+
+                    customButton.Candidates = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                    customButton.Click += Menu_Click;
                     PuzzleGrid.Children.Add(customButton);
                     customButtonList.Add(customButton);
                 }
-            }
         }
 
-        private void CustomButton_Click(object sender, RoutedEventArgs e)
+        private static int GetRegion(int col, int row)
         {
-            if (sender is MenuItem mi)
+            var value = $"{col}{row}";
+            int region;
+
+            switch (value)
             {
-                if (mi.CommandParameter is ContextMenu cm)
-                {
-                    if (cm.PlacementTarget is CustomButton customButton)
-                    {
-                        if (customButton.HasStartValue)
-                        {
-                            MessageBox.Show("This cell is contains a start value and cannot be changed.");
-                            return;
-                        }
+                case "11":
+                case "21":
+                case "31":
+                case "12":
+                case "22":
+                case "32":
+                case "13":
+                case "23":
+                case "33":
+                    region = 1;
+                    break;
 
-                        var content = mi.Header.ToString();
+                case "41":
+                case "51":
+                case "61":
+                case "42":
+                case "52":
+                case "62":
+                case "43":
+                case "53":
+                case "63":
+                    region = 2;
+                    break;
 
-                        int col = int.Parse(customButton.Name.Substring(2, 1));
-                        int row = int.Parse(customButton.Name.Substring(3, 1));
+                case "71":
+                case "81":
+                case "91":
+                case "72":
+                case "82":
+                case "92":
+                case "73":
+                case "83":
+                case "93":
+                    region = 3;
+                    break;
 
-                        if (IsMoveValid(col, row, int.Parse(content)))
-                        {
-                            var oldString = FileContents;
-                            CellValues[col, row] = int.Parse(content);
+                case "14":
+                case "24":
+                case "34":
+                case "15":
+                case "25":
+                case "35":
+                case "16":
+                case "26":
+                case "36":
+                    region = 4;
+                    break;
 
-                            var sb = new StringBuilder(oldString);
-                            var startPosition = ConvertToLinear(col, row);
-                            sb.Remove(startPosition, 1);
-                            sb.Insert(startPosition, content);
-                            var newString = sb.ToString();
-                            FileContents = newString;
-                            SetFontOnly(ref customButton);
-                            customButton.Content = content;
-                            RefreshGrid();
-                            ShowMarkups();
+                case "44":
+                case "54":
+                case "64":
+                case "45":
+                case "55":
+                case "65":
+                case "46":
+                case "56":
+                case "66":
+                    region = 5;
+                    break;
 
-                        }
+                case "74":
+                case "84":
+                case "94":
+                case "75":
+                case "85":
+                case "95":
+                case "76":
+                case "86":
+                case "96":
+                    region = 6;
+                    break;
 
-                        else if (content == "Erase")
-                        {
-                            CellValues[col, row] = 0;
-                        }
-                    }
+                case "17":
+                case "27":
+                case "37":
+                case "18":
+                case "28":
+                case "38":
+                case "19":
+                case "29":
+                case "39":
+                    region = 7;
+                    break;
 
-                }
+                case "47":
+                case "57":
+                case "67":
+                case "48":
+                case "58":
+                case "68":
+                case "49":
+                case "59":
+                case "69":
+                    region = 8;
+                    break;
+
+                case "77":
+                case "87":
+                case "97":
+                case "78":
+                case "88":
+                case "98":
+                case "79":
+                case "89":
+                case "99":
+                    region = 9;
+                    break;
+                default:
+                    region = 0;
+                    break;
             }
+
+            return region;
         }
+
+        //private void CustomButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (sender is MenuItem mi)
+        //    {
+        //        if (mi.CommandParameter is ContextMenu cm)
+        //        {
+        //            if (cm.PlacementTarget is CustomButton button)
+        //            {
+        //                if (button.HasStartValue)
+        //                {
+        //                    MessageBox.Show("This cell contains a start value and cannot be changed.");
+        //                    return;
+        //                }
+
+        //                var content = mi.Header.ToString();
+        //                int col = int.Parse(button.Name.Substring(2, 1));
+        //                int row = int.Parse(button.Name.Substring(3, 1));
+        //                int region = GetRegion(col, row);
+
+        //                if (IsNumeric(content) && IsMoveValid(col, row, region, int.Parse(content)))
+        //                {
+        //                    var oldString = FileContents;
+        //                    var sb = new StringBuilder(oldString);
+        //                    var startPosition = ConvertToLinear(col, row);
+        //                    sb.Remove(startPosition, 1);
+        //                    sb.Insert(startPosition, content);
+        //                    var newString = sb.ToString();
+        //                    FileContents = newString;
+        //                    SetFont(ref button);
+        //                    button.Content = content;
+        //                    RefreshGrid();
+        //                    ShowMarkups();
+        //                }
+        //                else if (content == "Erase")
+        //                {
+        //                    button.Value = 0;
+        //                    button.Content = string.Empty;
+        //                }
+        //            }
+
+        //        }
+        //    }
+        //}
 
         private void OpenSavedGame()
         {
-            Array.Clear(CellValues, 0, CellValues.Length);
-
             // This loads the values for each cell from a filed saved on disk. If the value for a cell is greater than 0
             // it is a start value and cannot be changed by the user.
-            //todo: Turn this back on to select saved files
-            //var contents = FileContents = RemoveLineFeeds(LoadGameFromDisk());
-            var contents = FileContents = "003084650260000080000650020000800900800000005006001000080079000040000096092430700";
-
+            var contents = FileContents = RemoveLineFeeds(LoadGameFromDisk());
 
             if (contents.Length != 81) return;
             int counter = 0;
@@ -130,7 +365,7 @@ namespace SudokuMaster3
                 foreach (var col in Enumerable.Range(1, 9))
                 {
                     var value = int.Parse(contents[counter++].ToString());
-                    var customButton = customButtonList.Single(cb => cb.Name == $"cr{col}{row}"); 
+                    var customButton = customButtonList.Single(cb => cb.Name == $"cr{col}{row}");
                     if (customButton == null) return;
 
                     if (value > 0)
@@ -145,49 +380,27 @@ namespace SudokuMaster3
                         customButton.ContextMenu = FindResource("contextMenu1") as ContextMenu;
                         customButton.HasStartValue = false;
                         SetMarkupCell(ref customButton);
-                        customButton.Content = string.Empty;
+                        customButton.Value = 0;
+                        TransformCandidateValues(ref customButton);
                     }
-
-
-                    // CellValues array is populated first from file contents
-                    CellValues[col, row] = value;
-
                 }
             }
 
-            ShowMarkups();
-
-            var nl = Environment.NewLine;
-            textBlock1.Text += contents.Substring(0, 9) + nl
-                                                          + contents.Substring(9, 9) + nl
-                                                          + contents.Substring(18, 9) + nl
-                                                          + contents.Substring(27, 9) + nl
-                                                          + contents.Substring(36, 9) + nl
-                                                          + contents.Substring(45, 9) + nl
-                                                          + contents.Substring(54, 9) + nl
-                                                          + contents.Substring(63, 9) + nl
-                                                          + contents.Substring(72, 9) + nl;
         }
 
         private void ShowMarkups()
         {
-            foreach (var row in Enumerable.Range(1, 9))
+            foreach (var customButton in customButtonList.Where(cb => cb.HasStartValue))
             {
-                foreach (var col in Enumerable.Range(1, 9))
-                {
-                    var customButton = customButtonList.Single(cb => cb.Name == $"cr{col}{row}");
-                    if (customButton == null) return;
+                var cb = customButton;
+                SetLockedCell(ref cb);
+            }
 
-                    if (customButton.HasStartValue)
-                    {
-                        SetLockedCell(ref customButton);
-                        continue;
-                    }
-
-                    SetMarkupCell(ref customButton);
-                    var content = TransformCandidateValues(FindCandidates(col, row)).Trim();
-                    customButton.Content = content;
-                }
+            foreach (var customButton in customButtonList.Where(cb => !cb.HasStartValue))
+            {
+                var cb = customButton;
+                SetMarkupCell(ref cb);
+                FindCandidates(ref cb);
             }
         }
 
@@ -214,71 +427,47 @@ namespace SudokuMaster3
                         SetMarkupCell(ref customButton);
                     }
 
-                    CellValues[col, row] = value;
-
                 }
             }
         }
 
-        private static string TransformCandidateValues(string possibleValues)
+        private static void TransformCandidateValues(ref CustomButton button)
         {
-            if (possibleValues.Length < 9)
+            string lf = Environment.NewLine;
+            var candidatesString = string.Empty;
+
+            foreach (var candidate in button.Candidates)
             {
-                return possibleValues;
+                candidatesString += candidate.ToString();
             }
 
-            var lf = Environment.NewLine;
-            var s = possibleValues;
-            var values = string.Format("{0}{1}{2}{1}{3}", s.Substring(0, 3), lf, s.Substring(3, 3), s.Substring(6, 3));
-            return values;
+            button.Content = string.Format("{0}{1}{2}{1}{3}", candidatesString.Substring(0, 3), lf, candidatesString.Substring(3, 3), candidatesString.Substring(6, 3));
         }
 
-        private string FindCandidates(int col, int row)
+        private void FindCandidates(ref CustomButton button)
         {
-            var str = "123456789";
+            var candidates = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            int r;
-            int c;
-            var space = new string(' ', 1);
-
-            // check by column
-            for (r = 1; r <= 9; r++)
+            // check for candidates by column
+            foreach (var customButton in customButtonList.Where(cb => cb.Column >= 1 && cb.Column <= 9))
             {
-                if (CellValues[col, r] != 0)
-                {
-                    // that means there is a actual value in it
-                    str = str.Replace(CellValues[col, r].ToString(), space);
-                }
+                customButton.Candidates.Remove(button.Value);
             }
 
-            // check by row
-            for (c = 1; c <= 9; c++)
+            // check for candidates by row
+            foreach (var customButton in customButtonList.Where(cb => cb.Row >= 1 && cb.Row <= 9))
             {
-                if (CellValues[c, row] != 0)
-                {
-                    // that means there is a actual value in it
-                    str = str.Replace(CellValues[c, row].ToString(), space);
-                }
+                customButton.Candidates.Remove(button.Value);
             }
 
-            // check the boxes
-            var startColumn = col - (col - 1) % 3;
-            var startRow = row - (row - 1) % 3;
-            for (var rr = startRow; rr <= startRow + 2; rr++)
+            // check for candidates by region
+            foreach (var customButton in customButtonList.Where(cb => cb.Region >= 1 && cb.Region <= 9))
             {
-                for (var cc = startColumn; cc <= startColumn + 2; cc++)
-                {
-                    if (CellValues[cc, rr] != 0)
-                    {
-                        str = str.Replace(CellValues[cc, rr].ToString(), space);
-                    }
-                }
+                customButton.Candidates.Remove(button.Value);
             }
-
-            return str;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Menu_Click(object sender, RoutedEventArgs e)
         {
             if (sender is MenuItem mi)
             {
@@ -288,39 +477,38 @@ namespace SudokuMaster3
                     {
                         if (customButton.HasStartValue)
                         {
-                            MessageBox.Show("This cell is contains a start value and cannot be changed.");
+                            MessageBox.Show("This cell contains a start clue and cannot be erased.");
                             return;
                         }
 
                         var content = mi.Header.ToString();
-
                         int col = int.Parse(customButton.Name.Substring(2, 1));
                         int row = int.Parse(customButton.Name.Substring(3, 1));
+                        int region = GetRegion(col, row);
 
-                        if (IsMoveValid(col, row, int.Parse(content)))
+                        if (IsNumeric(content) && IsMoveValid(col, row, region, int.Parse(content)))
                         {
                             var oldString = FileContents;
-                            CellValues[col, row] = int.Parse(content);
-
                             var sb = new StringBuilder(oldString);
                             var startPosition = ConvertToLinear(col, row);
                             sb.Remove(startPosition, 1);
                             sb.Insert(startPosition, content);
                             var newString = sb.ToString();
                             FileContents = newString;
-                            SetFontOnly(ref customButton);
                             customButton.Content = content;
                             RefreshGrid();
                             ShowMarkups();
-
+                            SetFont(ref customButton);
                         }
-
                         else if (content == "Erase")
                         {
-                            CellValues[col, row] = 0;
+                            customButton.Value = 0;
+                        }
+                        else
+                        {
+                            MessageBox.Show("The selected number was invalid.");
                         }
                     }
-
                 }
             }
         }
@@ -574,12 +762,15 @@ namespace SudokuMaster3
                 case 99:
                     returnValue = 80;
                     break;
+                default:
+                    returnValue = 0;
+                    break;
             }
 
             return returnValue;
         }
 
-        private void SetLockedCell(ref CustomButton customButton)
+        private static void SetLockedCell(ref CustomButton customButton)
         {
             customButton.Background = new SolidColorBrush(Colors.LightSteelBlue);
             customButton.Foreground = new SolidColorBrush(Colors.Black);
@@ -588,14 +779,14 @@ namespace SudokuMaster3
             customButton.FontWeight = FontWeights.Bold;
         }
 
-        private void SetFontOnly(ref CustomButton customButton)
+        private static void SetFont(ref CustomButton customButton)
         {
             customButton.FontFamily = new FontFamily("Consolas");
             customButton.FontSize = 12;
             customButton.FontWeight = FontWeights.Bold;
         }
 
-        private void SetMarkupCell(ref CustomButton customButton)
+        private static void SetMarkupCell(ref CustomButton customButton)
         {
             customButton.Background = new SolidColorBrush(Colors.LightYellow);
             customButton.Foreground = new SolidColorBrush(Colors.Black);
@@ -604,44 +795,29 @@ namespace SudokuMaster3
             customButton.FontWeight = FontWeights.SemiBold;
         }
 
-        private bool IsMoveValid(int col, int row, int value)
+        private bool IsMoveValid(int col, int row, int region, int value)
         {
 
-            // scan through columns
-            for (int r = 1; r <= 9; r++)
+            // scan through column
+            foreach (var customButton in customButtonList.Where(cb => cb.Column == col))
             {
-                if (CellValues[col, r] == value) // duplicate
-                {
-                    return false;
-                }
+                if (customButton.Value == value) return false;
             }
 
-            // scan through rows
-            for (int c = 1; c <= 9; c++)
+            // scan through row
+            foreach (var customButton in customButtonList.Where(cb => cb.Row == row))
             {
-                if (CellValues[c, row] == value)
-                {
-                    return false;
-                }
-
+                if (customButton.Value == value) return false;
             }
 
-            // scan through boxes
-            var startC = col - (col - 1) % 3;
-            var startR = row - (row - 1) % 3;
-
-            for (int rr = 0; rr <= 2; rr++)
+            // scan through region
+            foreach (var customButton in customButtonList.Where(cb => cb.Region == region))
             {
-                for (int cc = 0; cc <= 2; cc++)
-                {
-                    if (CellValues[startC + cc, startR + rr] == value) //duplicate
-                    {
-                        return false;
-                    }
-                }
+                if (customButton.Value == value) return false;
             }
 
             return true;
+
         }
 
         private string LoadGameFromDisk()
@@ -664,19 +840,20 @@ namespace SudokuMaster3
             return contents;
         }
 
-        private void MenuOpen_OnClick(object sender, RoutedEventArgs e)
+        private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenSavedGame();
         }
 
-        private void MenuClearText_OnClick(object sender, RoutedEventArgs e)
+        private void MenuClearText_Click(object sender, RoutedEventArgs e)
         {
             textBlock1.Text = string.Empty;
         }
 
-        private void MenuExit_OnClick(object sender, RoutedEventArgs e)
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         }
+
     }
 }
