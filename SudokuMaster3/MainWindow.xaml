@@ -15,43 +15,43 @@
                      Background="White">
             <MenuItem Header="1"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="2"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="3"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="4"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="5"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="6"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="7"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="8"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="9"
                       Background="White"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <Separator />
             <MenuItem Header="Erase"
-                      Click="Menu_Click"
+                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
         </ContextMenu>
     </Window.Resources>
