@@ -8,6 +8,7 @@ using System.Windows;
 
 namespace SudokuMaster3
 {
+    /// <inheritdoc />
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

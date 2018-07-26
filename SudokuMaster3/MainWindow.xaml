@@ -11,7 +11,7 @@
         Title="Sudoku Master 3">
     <Window.Resources>
         <!-- Having CommandParameter is crucial here -->
-        <ContextMenu x:Key="contextMenu1"
+        <ContextMenu x:Key="ContextMenu1"
                      Background="White">
             <MenuItem Header="1"
                       Background="White"
@@ -59,30 +59,30 @@
                Height="340"
                Margin="10,0,0,0"
                Dock="Top">
-        <DockPanel x:Name="dockPanel1"
+        <DockPanel x:Name="DockPanel1"
                    LastChildFill="False"
                    Dock="Top">
-            <Menu x:Name="mainMenu"
+            <Menu x:Name="MainMenu"
                   DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Open"
-                              x:Name="menuOpen"
+                              x:Name="MenuOpen"
                               Click="MenuOpen_Click" />
                     <MenuItem Header="_Save"
-                              x:Name="menuSave" />
+                              x:Name="MenuSave" />
                     <Separator />
                     <MenuItem Header="E_xit"
-                              x:Name="menuExit"
+                              x:Name="MenuExit"
                               Click="MenuExit_Click" />
                 </MenuItem>
                 <MenuItem Header="_Tools">
                     <MenuItem Header="Show _Markups"
-                              x:Name="menuMarkups"></MenuItem>
+                              x:Name="MenuMarkups"></MenuItem>
                     <MenuItem Header="Show _Candidates"
-                              x:Name="menuCandidates"></MenuItem>
+                              x:Name="MenuCandidates"></MenuItem>
                     <Separator />
                     <MenuItem Header="Clear _Text"
-                              x:Name="menuClearText"
+                              x:Name="MenuClearText"
                               Click="MenuClearText_Click" />
                 </MenuItem>
                 <MenuItem Header="_Help">
@@ -97,26 +97,21 @@
                    Dock="Top"
                    Width="640"
                    HorizontalAlignment="Left">
-            <Border BorderBrush="Red"
-                    BorderThickness="0">
-                <UniformGrid Background="Lime"
-                             DockPanel.Dock="Top"
+                <UniformGrid DockPanel.Dock="Left"
                              x:Name="PuzzleGrid"
-                             Margin="0"
+                             Columns="9"
+                             Rows="9"
                              Width="288"
-                             Height="288" />
-            </Border>
-            <Border BorderThickness="0"
-                    BorderBrush="Red">
+                             Height="288">
+                </UniformGrid>
                 <TextBlock Background="Cyan"
-                           DockPanel.Dock="Top"
+                           DockPanel.Dock="Right"
                            Margin="0"
-                           x:Name="textBlock1"
+                           x:Name="TextBlock1"
                            FontFamily="Consolas"
                            TextWrapping="Wrap"
                            Height="288"
                            Width="288" />
-            </Border>
         </DockPanel>
     </DockPanel>
 </Window>
