@@ -12,84 +12,54 @@ using Microsoft.Win32;
 
 namespace SudokuMaster3
 {
-    public class CustomButton : Button
+    public partial class MainWindow : Window
     {
-        public bool? IsGiven { get; set; }
-
-        public int Value { get; set; }
-
-        public int Region { get; set; }
-
-        public int Row { get; set; }
-
-        public int Column { get; set; }
-
-        public List<int> Candidates { get; set; }
-    }
-
-    public partial class MainWindow
-    {
-        private int LastSelectedValue { get; set; }
-        private readonly List<CustomButton> _customButtonList = new List<CustomButton>();
-        private const int ButtonHeight = 30;
-        private const int ButtonWidth = 30;
-
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += MainWindow_Loaded;
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
             InitializeBoard();
-            FileContents = string.Empty;
         }
 
-        private string FileContents { get; set; }
-
+        private int LastSelectedValue { get; set; }
+        private string FileContents { get; set; } = string.Empty;
         private static string RemoveNewLines(string input)
         {
             return !string.IsNullOrEmpty(input)
                 ? string.Join(string.Empty, Regex.Split(input, @"(?:\r\n|\n|\r|[ ])"))
                 : string.Empty;
         }
-
-        private static bool IsNumeric(object expression)
+        public enum ButtonTag
         {
-            var isNumber = double.TryParse(Convert.ToString(expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out _);
-            return isNumber;
-        }
-
+            Value = 0,
+            Column = 1,
+            Row = 2,
+            Region = 3,
+            IsGiven = 4,
+            Candidates = 5
+        };
         private void InitializeBoard()
         {
             // InitializeBoard sets up the property values for the custom button controls and
             // adds them as children of the PuzzleGrid and also as items in customButtonList.
-
             foreach (var row in Enumerable.Range(1, 9))
+            {
                 foreach (var col in Enumerable.Range(1, 9))
                 {
-                    var border = new Border
-                    {
-                        BorderThickness = new Thickness(1)
-                    };
-                    var customButton = new CustomButton
-                    {
-                        Height = ButtonHeight,
-                        Width = ButtonWidth,
-                        Name = $"cr{col}{row}",
-                        Row = row,
-                        Column = col,
-                        Value = 0,
-                        Region = GetRegion(col, row),
-                        Candidates = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-                        Margin = new Thickness(0)
-                    };
-                    customButton.Click += Cell_Click;
-                    PuzzleGrid.Children.Add(border);
-                    border.Child = customButton;
-                    _customButtonList.Add(customButton);
+                    var button = (Button)PuzzleGrid.FindName($"Cr{col}{row}");
+                    if (button == null) continue;
+                    button.Tag = $"0{col}{row}{GetRegion(col, row)}0123456789";
+                    button.Content = string.Empty;
+                    button.Click += Cell_Click;
                 }
+            }
         }
-
         private static int GetRegion(int col, int row)
         {
-            switch (int.Parse($"{col}{row}"))
+            switch (Int32.Parse($"{col}{row}"))
             {
                 case 11:
                 case 21:
@@ -185,7 +155,6 @@ namespace SudokuMaster3
                     return 0;
             }
         }
-
         private void LoadSavedGame()
         {
             // OpenSavedGame loads the values for each cell from a filed saved on disk.
@@ -206,136 +175,148 @@ namespace SudokuMaster3
                 foreach (var col in Enumerable.Range(1, 9))
                 {
                     var value = int.Parse(FileContents[counter++].ToString());
-                    var button = _customButtonList.FirstOrDefault(cb => cb.Name == $"cr{col}{row}");
+                    var button = (Button)FindName($"Cr{col}{row}");
                     if (button == null) return;
-
                     // If the value for a cell is greater than 0 it is a given and cannot be changed by the user.
-                    if (value > 0 && button.IsGiven == null)
+                    if (value > 0)
                     {
                         SetAsLockedCell(ref button);
-                        button.Value = value;
-                        button.Content = value.ToString();
+                        button.Content = value;
                     }
-                    if (value == 0)
-                    {
-                        SetAsMarkupCell(ref button);
-                        button.Value = value;
-                        button.ContextMenu = FindResource("ContextMenu1") as ContextMenu;
-                        UpdateCandidates(ref button);
-                    }
+
+                    if (value != 0) continue;
+                    SetAsMarkupCell(ref button);
+                    button.ContextMenu = FindResource("ContextMenu1") as ContextMenu;
+                    UpdateCandidates(ref button);
 
                 }
             }
 
 
         }
-
-        private void UpdateCandidates(ref CustomButton button)
+        private static int GetRowFromButtonTag(ref Button button)
         {
-            if (button.IsGiven == true) return;
+            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Row, 1));
+        }
+        private static int GetColumnFromButtonTag(ref Button button)
+        {
+            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Column, 1));
+        }
+        private static int GetRegionFromButtonTag(ref Button button)
+        {
+            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Region, 1));
+        }
+        private static int GetIsGivenFromButtonTag(ref Button button)
+        {
+            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.IsGiven, 1));
+        }
+        private static void SendValueToButtonTag(ref Button button, int value)
+        {
+            var oldString = button.Tag.ToString();
+            var sb = new StringBuilder(oldString);
+            sb.Remove((int)ButtonTag.Value, 1);
+            sb.Insert((int)ButtonTag.Value, value);
+            button.Tag = sb.ToString();
+            button.Content = sb.ToString();
+        }
+        private static int GetValueFromButtonTag(ref Button button)
+        {
+            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Value, 1));
+        }
+        private void UpdateCandidates(ref Button button)
+        {
+            // To prevent updates to button that have isGiven property set to true.
+            if (GetIsGivenFromButtonTag(ref button) == 1) return;
+            // To get values from button tag property.
+            var col = GetColumnFromButtonTag(ref button);
+            var row = GetRowFromButtonTag(ref button);
+            var region = GetRegionFromButtonTag(ref button);
+            var value = GetValueFromButtonTag(ref button);
 
-            var col = button.Column;
-            var row = button.Row;
-            var region = button.Region;
-
-            foreach (var cb in _customButtonList.Where(cb => cb.Column == col && cb.Value > 0))
+            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
             {
-                button.Candidates.Remove(cb.Value);
-            }
-            foreach (var cb in _customButtonList.Where(cb => cb.Row == row && cb.Value > 0))
-            {
-                button.Candidates.Remove(cb.Value);
-            }
-            foreach (var cb in _customButtonList.Where(cb => cb.Region == region && cb.Value > 0))
-            {
-                button.Candidates.Remove(cb.Value);
+                if (!(control is Button btn) || GetRowFromButtonTag(ref btn) != row) continue;
+                var candidates = UpdateTagString(btn, value.ToString());
+                var content = string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3),
+                    Environment.NewLine, candidates.Substring(3, 3), candidates.Substring(6, 3));
+                button.Content = content;
+                Debug.WriteLine(content);
             }
 
-            var candidates = string.Empty;
-            foreach (var number in Enumerable.Range(1, 9))
+            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
             {
-                if (button.Candidates.Contains(number))
+                if (!(control is Button btn) || GetColumnFromButtonTag(ref btn) != col) continue;
+                var candidates = UpdateTagString(btn, value.ToString());
+                var content = string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3),
+                    Environment.NewLine, candidates.Substring(3, 3), candidates.Substring(6, 3));
+                button.Content = content;
+                Debug.WriteLine(content);
+
+            }
+
+            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
+            {
+                if (!(control is Button btn) || GetRegionFromButtonTag(ref btn) != region) continue;
+                var candidates = UpdateTagString(btn, value.ToString());
+                var content = string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3),
+                    Environment.NewLine, candidates.Substring(3, 3), candidates.Substring(6, 3));
+                button.Content = content;
+                Debug.WriteLine(content);
+            }
+        }
+        private static string UpdateTagString(FrameworkElement btn, string value)
+        {
+            var btnTagString = btn.Tag.ToString();
+            var candidates = btnTagString.Substring((int)ButtonTag.Candidates, 9);
+            candidates = candidates.Replace(value, " ");
+            var sb = new StringBuilder(btnTagString);
+            sb.Remove((int)ButtonTag.Candidates, 9);
+            sb.Insert((int)ButtonTag.Candidates, candidates);
+            btn.Tag = sb.ToString();
+            return candidates;
+        }
+        private void Cell_Click(object sender, RoutedEventArgs e)
+        {
+            if (FindResource("ContextMenu1") is ContextMenu cm)
+            {
+                cm.PlacementTarget = sender as Button;
+                cm.IsOpen = true;
+                var button = (Button) sender;
+
+                var col = GetColumnFromButtonTag(ref button);
+                var row = GetRowFromButtonTag(ref button);
+                var region = GetRegionFromButtonTag(ref button);
+                var oldString = string.Empty;
+
+                if (FileContents == string.Empty)
                 {
-                    candidates += $"{number}";
+                    oldString = FileContents = LoadGameFromDisk();
+                }
+                if (oldString.Length != 81)
+                {
+                    MessageBox.Show("Input string format was not valid.");
+                    return;
+                }
+                var sb = new StringBuilder(oldString);
+                var startPosition = GetPositionInString(col, row);
+                sb.Remove(startPosition, 1);
+                sb.Insert(startPosition, button.Content.ToString());
+                var newString = sb.ToString();
+                FileContents = newString;
+                LastSelectedValue = int.Parse(button.Content.ToString());
+
+                if (IsMoveValid(col, row, region))
+                {
+                    SendValueToButtonTag(ref button, LastSelectedValue);
+                    UpdateCandidates(ref button);
+                    LoadSavedGame();
                 }
                 else
                 {
-                    candidates += " ";
+                    MessageBox.Show("This move is not valid.");
                 }
             }
-
-            var nl = Environment.NewLine;
-            button.Content = string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3), nl, candidates.Substring(3, 3), candidates.Substring(6, 3));
         }
-
-        //private void DisplayCandidates(ref CustomButton button)
-        //{
-        //    var candidates = string.Empty;
-        //    foreach (var cb in _customButtonList.Where(cb => !cb.IsGiven))
-        //    {
-        //        foreach (var number in Enumerable.Range(1, 9))
-        //        {
-        //            if (cb.Candidates.Contains(number))
-        //            {
-        //                candidates += $"{number}";
-        //            }
-        //            else
-        //            {
-        //                candidates += " ";
-        //            }
-        //        }
-        //    }
-
-        //    var nl = Environment.NewLine;
-        //    button.Content = string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3), nl, candidates.Substring(3, 3), candidates.Substring(6, 3));
-        //}
-
-
-        private void Cell_Click(object sender, RoutedEventArgs e)
-        {
-            if (!(sender is MenuItem mi)) return;
-            if (!(mi.CommandParameter is ContextMenu cm)) return;
-            if (!(cm.PlacementTarget is CustomButton button)) return;
-            if (button.IsGiven == true) return;
-
-            var content = mi.Header.ToString();
-            if (content == "Erase")
-            {
-                button.Value = 0;
-                button.Content = string.Empty;
-                return;
-            }
-
-            var col = int.Parse(button.Name.Substring(2, 1));
-            var row = int.Parse(button.Name.Substring(3, 1));
-            var region = GetRegion(col, row);
-            var oldString = FileContents.Replace("X", "0");
-            if (oldString.Length != 81)
-            {
-                MessageBox.Show("Input string format was not valid.");
-                return;
-            }
-            var sb = new StringBuilder(oldString);
-            var startPosition = GetPositionInString(col, row);
-            sb.Remove(startPosition, 1);
-            sb.Insert(startPosition, content);
-            var newString = sb.ToString();
-            FileContents = newString;
-            LastSelectedValue = int.Parse(content);
-
-            if (IsMoveValid(col, row, region))
-            {
-                button.Value = LastSelectedValue;
-                UpdateCandidates(ref button);
-                button.Content = LastSelectedValue;
-                LoadSavedGame();
-            }
-            else
-            {
-                MessageBox.Show("This move is not valid.");
-            }
-        }
-
         private static int GetPositionInString(int col, int row)
         {
             var value = int.Parse($"{col}{row}");
@@ -592,8 +573,7 @@ namespace SudokuMaster3
 
             return returnValue;
         }
-
-        private static void SetAsLockedCell(ref CustomButton customButton)
+        private static void SetAsLockedCell(ref Button customButton)
         {
             customButton.Background = new SolidColorBrush(Colors.LightSteelBlue);
             customButton.Foreground = new SolidColorBrush(Colors.Black);
@@ -601,82 +581,64 @@ namespace SudokuMaster3
             customButton.FontSize = 12;
             customButton.FontWeight = FontWeights.Bold;
         }
-
-        private static void SetAsMarkupCell(ref CustomButton customButton)
+        private static void SetAsMarkupCell(ref Button button)
         {
-            customButton.Background = new SolidColorBrush(Colors.LightYellow);
-            customButton.Foreground = new SolidColorBrush(Colors.Black);
-            customButton.FontFamily = new FontFamily("Consolas");
-            customButton.FontSize = 7.25;
-            customButton.FontWeight = FontWeights.Bold;
+            button.Background = new SolidColorBrush(Colors.LightYellow);
+            button.Foreground = new SolidColorBrush(Colors.Black);
+            button.FontFamily = new FontFamily("Consolas");
+            button.FontSize = 7.25;
+            button.FontWeight = FontWeights.Bold;
         }
-
-        private static void SetAsNewValueCell(ref CustomButton customButton)
-        {
-            customButton.Background = new SolidColorBrush(Colors.LightYellow);
-            customButton.Foreground = new SolidColorBrush(Colors.Black);
-            customButton.FontFamily = new FontFamily("Consolas");
-            customButton.FontSize = 12;
-            customButton.FontWeight = FontWeights.Bold;
-        }
-
         private bool IsMoveValid(int col, int row, int region)
         {
-            // scan through column
-            foreach (var customButton in _customButtonList.Where(cb => cb.Column == col && cb.Value != 0))
+            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
             {
-                if (customButton.Value == LastSelectedValue) return false;
-            }
-
-            // scan through row
-            foreach (var customButton in _customButtonList.Where(cb => cb.Row == row && cb.Value != 0))
-            {
-                if (customButton.Value == LastSelectedValue) return false;
-            }
-
-            // scan through region
-            foreach (var customButton in _customButtonList.Where(cb => cb.Region == region && cb.Value != 0))
-            {
-                if (customButton.Value == LastSelectedValue) return false;
+                if (control is Button button)
+                {
+                    if (GetColumnFromButtonTag(ref button) == col)
+                    {
+                        var value = int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Value, 1));
+                        if (value == LastSelectedValue) return false;
+                    }
+                    if (GetRowFromButtonTag(ref button) == row)
+                    {
+                        var value = int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Value, 1));
+                        if (value == LastSelectedValue) return false;
+                    }
+                    if (GetRegionFromButtonTag(ref button) == region)
+                    {
+                        var value = int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Value, 1));
+                        if (value == LastSelectedValue) return false;
+                    }
+                }
             }
 
             return true;
         }
-
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
             LoadSavedGame();
         }
-
         private string LoadGameFromDisk()
         {
-            var contents = string.Empty;
             var openFileDialog = new OpenFileDialog
             {
                 Filter = @"SS files (*.ss)|*.ss|SDO files (*.sdo)|*.sdo|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false,
-
             };
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                Title = openFileDialog.FileName.Substring(23);
-                contents = File.ReadAllText(openFileDialog.FileName);
-            }
-            contents = contents.Replace(".", "0").Replace("|", "").Replace("\r\n", "").Replace("-", "");
-            return contents.Replace(".", "0").Replace("|", "").Replace("\r\n", "");
+            if (openFileDialog.ShowDialog() != true) return string.Empty;
+            Title = openFileDialog.FileName.Substring(23);
+            return File.ReadAllText(openFileDialog.FileName).Replace(@".", "0").Replace(@"|", "").Replace(@"\r\n", "").Replace(@"-", "");
         }
-
         private void MenuClearText_Click(object sender, RoutedEventArgs e)
         {
             TextBlock1.Text = string.Empty;
         }
-
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         }
-
     }
 }
