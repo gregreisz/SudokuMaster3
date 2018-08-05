@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Loaded="MainWindow_Loaded"
         mc:Ignorable="d"
         FontFamily="Consolas"
@@ -14,15 +14,12 @@
                      Background="White">
             <MenuItem Header="1"
                       Background="White"
-                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="2"
                       Background="White"
-                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="3"
                       Background="White"
-                      Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
             <MenuItem Header="4"
                       Background="White"
@@ -53,878 +50,1244 @@
                       Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
         </ContextMenu>
+        <Style TargetType="Button"
+               x:Key="MyButton2">
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Background"
+                    Value="White" />  
+            <Setter Property="Margin"
+                    Value="3"/>
+            <Setter Property="Foreground"
+                    Value="MediumBlue" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Border CornerRadius="3"
+                                    BorderBrush="#ccc"
+                                    BorderThickness="0">
+                                <ContentPresenter x:Name="MyContentPresenter"
+                                                  Content="{TemplateBinding Content}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled"
+                         Value="False">
+                    <Setter Property="Background"
+                            Value="Green" />
+                    <Setter Property="Foreground"
+                            Value="DeepPink" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
-    <DockPanel Margin="10,0,0,0"
-               Dock="Top">
-        <DockPanel x:Name="DockPanel1"
-                   LastChildFill="False"
-                   Dock="Top">
-            <Menu x:Name="MainMenu"
-                  DockPanel.Dock="Top">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_Open"
-                              x:Name="MenuOpen"
-                              Click="MenuOpen_Click" />
-                    <MenuItem Header="_Save"
-                              x:Name="MenuSave" />
-                    <Separator />
-                    <MenuItem Header="E_xit"
-                              x:Name="MenuExit"
-                              Click="MenuExit_Click" />
-                </MenuItem>
-                <MenuItem Header="_Tools">
-                    <MenuItem Header="Show _Markups"
-                              x:Name="MenuMarkups"></MenuItem>
-                    <MenuItem Header="Show _Candidates"
-                              x:Name="MenuCandidates"></MenuItem>
-                    <Separator />
-                    <MenuItem Header="Clear _Text"
-                              x:Name="MenuClearText"
-                              Click="MenuClearText_Click" />
-                </MenuItem>
-                <MenuItem Header="_Help">
+    <Viewbox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0"
+                       MaxHeight="16">
+                <Menu x:Name="MainMenu"
+                      Background="White"
+                      DockPanel.Dock="Top">
+                    <MenuItem Header="_File">
+                        <MenuItem Header="_Open"
+                                  x:Name="MenuOpen"
+                                  Click="MenuOpen_Click" />
+                        <MenuItem Header="_Save"
+                                  x:Name="MenuSave" />
+                        <Separator />
+                        <MenuItem Header="E_xit"
+                                  x:Name="MenuExit"
+                                  Click="MenuExit_Click" />
+                    </MenuItem>
+                    <MenuItem Header="_Tools">
+                        <MenuItem Header="Show _Markups"
+                                  x:Name="MenuMarkups"></MenuItem>
+                        <MenuItem Header="Show _Candidates"
+                                  x:Name="MenuCandidates"></MenuItem>
+                        <Separator />
+                        <MenuItem Header="Clear _Text"
+                                  x:Name="MenuClearText"
+                                  Click="MenuClearText_Click" />
+                    </MenuItem>
                     <MenuItem Header="_Help">
-                        <MenuItem Header="_About"></MenuItem>
-                    </MenuItem> Cu
-                </MenuItem>
-            </Menu>
-        </DockPanel>
-        <Viewbox>
-            <DockPanel Dock="Top"     
-                       Margin="20"
-                       HorizontalAlignment="Left">
+                        <MenuItem Header="_Help">
+                            <MenuItem Header="_About"></MenuItem>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+            <DockPanel Grid.Row="1"
+                       Dock="Top">
                 <UniformGrid DockPanel.Dock="Left"
-                             MinHeight="290"
-                             MinWidth="290"
-                             MaxWidth="290"
-                             MaxHeight="290"
+                             MinHeight="288"
+                             MinWidth="288"   
                              x:Name="PuzzleGrid"
                              Columns="9"
                              Rows="9">
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr11" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,1,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr21" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,1,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr31" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="1,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
+                                CornerRadius="3"
                                 BorderThickness="0,1,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr41" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,1,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr51" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,1,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr61" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="1,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
+                                CornerRadius="3"
                                 BorderThickness="0,1,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr71" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,1,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr81" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,1,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                    BorderThickness="0"
                                     x:Name="Cr91" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr12" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr22" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr32" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="1,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr42" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr52" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr62" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="1,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr72" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr82" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr92" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,0">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr13" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,0">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr23" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr33" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="1,0,0,1">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,0">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr43" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,1,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr53" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,0">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr63" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="1,0,0,1">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,0">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr73" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr83" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr93" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr14" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr24" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr34" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr44" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr54" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr64" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr74" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr84" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr94" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr15" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr25" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr35" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr45" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr55" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr65" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr75" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr85" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr95" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr16" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr26" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,1,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr36" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr46" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr56" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,1,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr66" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr76" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr86" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0,0,0,1">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,0">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr96" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr17" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr27" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr37" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr47" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr57" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr67" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr77" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr87" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr97" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr18" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr28" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr38" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr48" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr58" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr68" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr78" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr88" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr98" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="1,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr19" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr29" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
+                            CornerRadius="3"
                             BorderThickness="0,0,1,0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,0,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr39" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0,0,1,1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr49" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0 0 1 1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr59" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0 0 1 0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0 0 0 1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr69" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0 0 1 1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr79" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0 0 1 1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr89" />
                         </Border>
                     </Border>
                     <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
+                            CornerRadius="3"
+                            BorderThickness="0">
                         <Border BorderBrush="Black"
-                                BorderThickness="1,1,0,1">
+                                CornerRadius="3"
+                                BorderThickness="0 0 1 1">
                             <Button Content="0"
                                     Click="Cell_Click"
-                                    Background="LightYellow"
+                                    Style="{StaticResource MyButton2}"
+                                   
+                                    BorderThickness="0"
                                     x:Name="Cr99" />
                         </Border>
                     </Border>
                 </UniformGrid>
-                <TextBlock Background="Cyan"
-                           DockPanel.Dock="Right"
-                           Margin="10 0 0 0"
-                           x:Name="TextBlock1"
-                           FontFamily="Consolas"
-                           TextWrapping="Wrap"
-                           MinHeight="290"
-                           MinWidth="290"
-                           MaxWidth="290"
-                           MaxHeight="290"
-                           Height="290"
-                           Width="290" />
+                <Grid DockPanel.Dock="Right">
+                    <Border BorderThickness="0 1 1 1"
+                            CornerRadius="3"
+                            BorderBrush="Black">
+                        <TextBlock x:Name="TextBlock1"
+                                   Margin="0"
+                                   Padding="10"
+                                   MinHeight="288"
+                                  
+                                   FontSize="8"
+                                   MinWidth="288" />
+                    </Border>
+                </Grid>
             </DockPanel>
-        </Viewbox>
-    </DockPanel>
+            <DockPanel Dock="Bottom"
+                       MaxHeight="16"
+                       Grid.Row="2">
+                <TextBlock x:Name="TextBlockDisplay"
+                           Text="Testing"
+                           FontSize="8"
+                           FontStyle="Normal"
+                           FontWeight="Normal"
+                           Margin="1"
+                           Padding="1"
+                           FontFamily="Consolas"
+                           Background="White" />
+            </DockPanel>
+        </Grid>
+    </Viewbox>
 </Window>
