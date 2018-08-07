@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using Microsoft.Win32;
 
@@ -18,6 +20,7 @@ namespace SudokuMaster3
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
+
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             InitializeBoard();
@@ -25,18 +28,23 @@ namespace SudokuMaster3
 
         private void ShowMessage(string input)
         {
-            TextBlock1.Text = input;
+            TextBlock1.Inlines.Add(new Run(input));
+            TextBlock1.Inlines.Add(new LineBreak());
         }
 
         private string SelectedButtonName { get; set; }
+
         private int SelectedValue { get; set; }
+
         private string FileContents { get; set; } = string.Empty;
+
         private static string RemoveNewLines(string input)
         {
             return !string.IsNullOrEmpty(input)
                 ? string.Join(string.Empty, Regex.Split(input, @"(?:\r\n|\n|\r|[ ])"))
                 : string.Empty;
         }
+
         public enum ButtonTag
         {
             Value = 0,
@@ -46,6 +54,7 @@ namespace SudokuMaster3
             IsGiven = 4,
             Candidates = 5
         };
+
         private void InitializeBoard()
         {
             // InitializeBoard sets up the property values for the custom button controls and
@@ -59,10 +68,11 @@ namespace SudokuMaster3
                     button.Tag = $"0{col}{row}{GetRegion(col, row)}0123456789";
                     button.Content = string.Empty;
                     button.Click += Cell_Click;
-                    button.Background = new SolidColorBrush(Colors.White);
+                    button.Background = new SolidColorBrush(Colors.LightYellow);
                 }
             }
         }
+
         private static int GetRegion(int col, int row)
         {
             switch (int.Parse($"{col}{row}"))
@@ -165,7 +175,7 @@ namespace SudokuMaster3
         private void LoadSavedGame(bool isRefresh = false)
         {
 
-            // OpenSavedGame loads the values for each cell from a filed saved on disk.
+            // LoadGameFromDisk loads the values for each cell from a filed saved on disk.
             if (FileContents == string.Empty)
             {
                 FileContents = RemoveNewLines(LoadGameFromDisk());
@@ -189,6 +199,7 @@ namespace SudokuMaster3
                     {
                         button.Content = value;
                     }
+
                     if (!isRefresh && value > 0)
                     {
                         SetAsLockedCell(ref button);
@@ -205,22 +216,27 @@ namespace SudokuMaster3
 
 
         }
-        private static int GetRowFromButtonTag(ref Button button)
+
+        private static int GetRowFromButton(ref Button button)
         {
             return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Row, 1));
         }
-        private static int GetColumnFromButtonTag(ref Button button)
+
+        private static int GetColumnFromButton(ref Button button)
         {
             return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Column, 1));
         }
-        private static int GetRegionFromButtonTag(ref Button button)
+
+        private static int GetRegionFromButton(ref Button button)
         {
             return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Region, 1));
         }
-        private static int GetIsGivenFromButtonTag(ref Button button)
+
+        private static int ButtonIsGiven(ref Button button)
         {
             return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.IsGiven, 1));
         }
+
         private string GetUpdatedButtonTag(ref Button button)
         {
             var oldString = button.Tag.ToString();
@@ -229,24 +245,26 @@ namespace SudokuMaster3
             sb.Insert((int)ButtonTag.Value, SelectedValue);
             return sb.ToString();
         }
-        private static int GetValueFromButtonTag(ref Button button)
+
+        private static int GetValueFromButton(ref Button button)
         {
             return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Value, 1));
         }
+
         private void UpdateCandidates(ref Button button)
         {
             // To prevent updates to button that have isGiven property set to true.
-            if (GetIsGivenFromButtonTag(ref button) == 1) return;
+            if (ButtonIsGiven(ref button) == 1) return;
 
             // To get values from button tag property.
-            var col = GetColumnFromButtonTag(ref button);
-            var row = GetRowFromButtonTag(ref button);
-            var region = GetRegionFromButtonTag(ref button);
-            var value = GetValueFromButtonTag(ref button);
+            var col = GetColumnFromButton(ref button);
+            var row = GetRowFromButton(ref button);
+            var region = GetRegionFromButton(ref button);
+            var value = GetValueFromButton(ref button);
 
             foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
             {
-                if (!(control is Button btn) || GetRowFromButtonTag(ref btn) != row) continue;
+                if (!(control is Button btn) || GetRowFromButton(ref btn) != row) continue;
                 var candidates = UpdateCandidatesString(btn, value.ToString());
                 button.Content = TransformCandidates(candidates);
                 //Debug.WriteLine(button.Content);
@@ -254,7 +272,7 @@ namespace SudokuMaster3
 
             foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
             {
-                if (!(control is Button btn) || GetColumnFromButtonTag(ref btn) != col) continue;
+                if (!(control is Button btn) || GetColumnFromButton(ref btn) != col) continue;
                 var candidates = UpdateCandidatesString(btn, value.ToString());
                 button.Content = TransformCandidates(candidates);
                 //Debug.WriteLine(button.Content);
@@ -263,16 +281,19 @@ namespace SudokuMaster3
 
             foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
             {
-                if (!(control is Button btn) || GetRegionFromButtonTag(ref btn) != region) continue;
+                if (!(control is Button btn) || GetRegionFromButton(ref btn) != region) continue;
                 var candidates = UpdateCandidatesString(btn, value.ToString());
                 button.Content = TransformCandidates(candidates);
                 //Debug.WriteLine(button.Content);
             }
         }
+
         private static string TransformCandidates(string candidates)
         {
-            return string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3), Environment.NewLine, candidates.Substring(3, 3), candidates.Substring(6, 3));
+            return string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3), Environment.NewLine,
+                candidates.Substring(3, 3), candidates.Substring(6, 3));
         }
+
         private static string UpdateCandidatesString(FrameworkElement btn, string value)
         {
             var btnTagString = btn.Tag.ToString();
@@ -283,6 +304,7 @@ namespace SudokuMaster3
             btn.Tag = sb.ToString();
             return candidates;
         }
+
         private void Cell_Click(object sender, RoutedEventArgs e)
         {
             if (!(sender is MenuItem mi)) return;
@@ -297,19 +319,20 @@ namespace SudokuMaster3
             SelectedButtonName = button.Name;
             SelectedValue = int.Parse(mi.Header.ToString());
 
-            var col = GetColumnFromButtonTag(ref button);
-            var row = GetRowFromButtonTag(ref button);
-            var region = GetRegionFromButtonTag(ref button);
+            var col = GetColumnFromButton(ref button);
+            var row = GetRowFromButton(ref button);
 
             if (FileContents == string.Empty)
             {
                 FileContents = LoadGameFromDisk();
             }
+
             if (FileContents.Length != 81)
             {
                 ShowMessage("Input string format was not valid.");
                 return;
             }
+
             var oldString = FileContents;
             var sb = new StringBuilder(oldString);
             var startPosition = GetPositionInString(col, row);
@@ -317,19 +340,21 @@ namespace SudokuMaster3
             sb.Insert(startPosition, SelectedValue);
             var newString = sb.ToString();
             FileContents = newString;
-            button.Tag = GetUpdatedButtonTag(ref button);
-            if (IsMoveValid(col, row, region, button.Name))
+
+            if (IsMoveValid(button.Name))
             {
                 UpdateCandidates(ref button);
                 SetAsUnLockedCell(ref button);
                 button.Content = SelectedValue;
+                button.Tag = GetUpdatedButtonTag(ref button);
                 LoadSavedGame(true);
             }
             else
             {
-                ShowMessage("Invalid move.");
+                ShowMessage("Invalid move!");
             }
         }
+
         private static int GetPositionInString(int col, int row)
         {
             var value = int.Parse($"{col}{row}");
@@ -586,6 +611,7 @@ namespace SudokuMaster3
 
             return returnValue;
         }
+
         private static void SetAsLockedCell(ref Button button)
         {
             button.Background = new SolidColorBrush(Colors.LightSteelBlue);
@@ -595,6 +621,7 @@ namespace SudokuMaster3
             button.FontWeight = FontWeights.Bold;
             button.IsEnabled = false;
         }
+
         private static void SetAsUnLockedCell(ref Button button)
         {
             button.Background = new SolidColorBrush(Colors.LightYellow);
@@ -604,6 +631,7 @@ namespace SudokuMaster3
             button.FontWeight = FontWeights.Bold;
             //button.IsEnabled = true;
         }
+
         private static void SetAsMarkupCell(ref Button button)
         {
             button.Background = new SolidColorBrush(Colors.LightYellow);
@@ -612,50 +640,45 @@ namespace SudokuMaster3
             button.FontSize = 8;
             button.FontWeight = FontWeights.Bold;
         }
-        private bool IsMoveValid(int col, int row, int region, string selectedButtonName)
+
+        private bool IsMoveValid(string selectedButton)
         {
+            //todo: This needs to be fixed now
+            //var rows = 0;
+            //var columns = 0;
+            //var regions = 0;
             var counter = 0;
+
             foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
             {
-                if (control is Border border1)
+                if (control is Border border1 && border1 is Border border2)
                 {
-                    if (border1 is Border border2)
+                    foreach (var col in Enumerable.Range(1, 9))
                     {
-                        foreach (var c in Enumerable.Range(1, 9))
+                        foreach (var row in Enumerable.Range(1, 9))
                         {
-                            foreach (var r in Enumerable.Range(1, 9))
+                            foreach (var region in Enumerable.Range(1, 9))
                             {
-                                ++counter;
-                                var button = (Button)border2.FindName($"Cr{c}{r}");
-                                if (GetIsGivenFromButtonTag(ref button) == 1) continue;
-                                if (button != null && selectedButtonName == button.Name) continue;
+                                var btn = (Button)border2.FindName($"Cr{col}{row}");
+                                if (btn == null) continue;
+                                var buttonValue = GetValueFromButton(ref btn);
+                                if (buttonValue == 0) continue;
 
-                                if (GetColumnFromButtonTag(ref button) == col)
-                                {
-                                    var value = GetValueFromButtonTag(ref button);
-                                    Debug.WriteLine($"Counter: {counter} Selected button: {selectedButtonName} value: {value} SelectedValue: {SelectedValue}");
-                                    if (value == SelectedValue) return false;
-                                }
-
-                                if (GetRowFromButtonTag(ref button) == row && button.Name != selectedButtonName)
-                                {
-                                    var value = GetValueFromButtonTag(ref button);
-                                    Debug.WriteLine($"Counter: {counter} Selected button: {selectedButtonName} value: {value} SelectedValue: {SelectedValue}");
-                                    if (value == SelectedValue) return false;
-                                }
-
-                                if (GetRegionFromButtonTag(ref button) == region && button.Name != selectedButtonName)
-                                {
-                                    var value = GetValueFromButtonTag(ref button);
-                                    Debug.WriteLine($"Counter: {counter} Selected button: {selectedButtonName} value: {value} SelectedValue: {SelectedValue}");
-                                    if (value == SelectedValue) return false;
-                                }
+                                // Don't want to compare the button's value to itself.
+                                if (btn.Name == selectedButton) continue;
+                                Debug.WriteLine($"Counter{++counter}");
+                                var buttonColumn = GetColumnFromButton(ref btn);
+                                var buttonRow = GetRowFromButton(ref btn);
+                                var buttonRegion = GetRegionFromButton(ref btn);
+                                if (buttonColumn == col && buttonValue == SelectedValue) return false;
+                                if (buttonRow == row && buttonValue == SelectedValue) return false;
+                                if (buttonRegion == region && buttonValue == SelectedValue) return false;
                             }
                         }
-
                     }
                 }
             }
+
             return true;
         }
 
@@ -663,17 +686,19 @@ namespace SudokuMaster3
         {
             LoadSavedGame();
         }
+
         private string LoadGameFromDisk()
         {
             var openFileDialog = new OpenFileDialog
             {
-                Filter = @"SS files (*.ss)|*.ss|SDO files (*.sdo)|*.sdo|All files (*.*)|*.*",
+                Filter = @"SS files (*easy*.ss)|*easy*.ss|SDO files (*.sdo)|*.sdo|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false,
+
             };
 
             if (openFileDialog.ShowDialog() != true) return string.Empty;
-            Title = openFileDialog.FileName;
+            Title = $@"Sudoku Master 3 - {openFileDialog.FileName}";
             return File.ReadAllText(openFileDialog.FileName).Replace(@".", "0").Replace(@"|", "").Replace(@"\r\n", "").Replace(@"-", "").Replace("X", "0");
         }
         private void MenuClearText_Click(object sender, RoutedEventArgs e)
