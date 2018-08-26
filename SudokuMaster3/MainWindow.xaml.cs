@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Data;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -13,176 +13,64 @@ using Microsoft.Win32;
 
 namespace SudokuMaster3
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : INotifyPropertyChanged
     {
+
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += MainWindow_Loaded;
+            InitializePuzzleBoard();
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        public string GameState { get; set; } = string.Empty;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyRaised(string propertyname)
         {
-            InitializeBoard();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
         }
 
         private void ShowMessage(string input)
         {
+            TextBlock1.Text = string.Empty;
             TextBlock1.Inlines.Add(new Run(input));
             TextBlock1.Inlines.Add(new LineBreak());
         }
 
-        private string SelectedButtonName { get; set; }
+        private List<TextBlock> _textBlocks = new List<TextBlock>();
+
+        private Button SelectedButton { get; set; }
 
         private int SelectedValue { get; set; }
 
-        private string FileContents { get; set; } = string.Empty;
-
-        private static string RemoveNewLines(string input)
+        private void InitializePuzzleBoard()
         {
-            return !string.IsNullOrEmpty(input)
-                ? string.Join(string.Empty, Regex.Split(input, @"(?:\r\n|\n|\r|[ ])"))
-                : string.Empty;
-        }
-
-        public enum ButtonTag
-        {
-            Value = 0,
-            Column = 1,
-            Row = 2,
-            Region = 3,
-            IsGiven = 4,
-            Candidates = 5
-        };
-
-        private void InitializeBoard()
-        {
-            // InitializeBoard sets up the property values for the custom button controls and
-            // adds them as children of the PuzzleGrid and also as items in customButtonList.
-            foreach (var row in Enumerable.Range(1, 9))
+            _textBlocks.Clear();
+            foreach (var control in PuzzleGrid.GetChildren())
             {
-                foreach (var col in Enumerable.Range(1, 9))
+                if (control is TextBlock textBlock)
                 {
-                    var button = (Button)PuzzleGrid.FindName($"Cr{col}{row}");
-                    if (button == null) continue;
-                    button.Tag = $"0{col}{row}{GetRegion(col, row)}0123456789";
-                    button.Content = string.Empty;
-                    button.Click += Cell_Click;
-                    button.Background = new SolidColorBrush(Colors.LightYellow);
+                    if (textBlock.Name.Substring(0, 2) != "Cr") continue;
+                    textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    textBlock.VerticalAlignment = VerticalAlignment.Center;
+                    textBlock.Text = textBlock.Name;
+                    _textBlocks.Add(textBlock);
                 }
             }
+
         }
 
-        private static int GetRegion(int col, int row)
+        private void LoadSavedGame(bool isReload = false)
         {
-            switch (int.Parse($"{col}{row}"))
-            {
-                case 11:
-                case 21:
-                case 31:
-                case 12:
-                case 22:
-                case 32:
-                case 13:
-                case 23:
-                case 33:
-                    return 1;
-                case 41:
-                case 51:
-                case 61:
-                case 42:
-                case 52:
-                case 62:
-                case 43:
-                case 53:
-                case 63:
-                    return 2;
-                case 71:
-                case 81:
-                case 91:
-                case 72:
-                case 82:
-                case 92:
-                case 73:
-                case 83:
-                case 93:
-                    return 3;
-                case 14:
-                case 24:
-                case 34:
-                case 15:
-                case 25:
-                case 35:
-                case 16:
-                case 26:
-                case 36:
-                    return 4;
-                case 44:
-                case 54:
-                case 64:
-                case 45:
-                case 55:
-                case 65:
-                case 46:
-                case 56:
-                case 66:
-                    return 5;
-                case 74:
-                case 84:
-                case 94:
-                case 75:
-                case 85:
-                case 95:
-                case 76:
-                case 86:
-                case 96:
-                    return 6;
-                case 17:
-                case 27:
-                case 37:
-                case 18:
-                case 28:
-                case 38:
-                case 19:
-                case 29:
-                case 39:
-                    return 7;
-                case 47:
-                case 57:
-                case 67:
-                case 48:
-                case 58:
-                case 68:
-                case 49:
-                case 59:
-                case 69:
-                    return 8;
-                case 77:
-                case 87:
-                case 97:
-                case 78:
-                case 88:
-                case 98:
-                case 79:
-                case 89:
-                case 99:
-                    return 9;
-                default:
-                    return 0;
-            }
-        }
-
-        private void LoadSavedGame(bool isRefresh = false)
-        {
-
             // LoadGameFromDisk loads the values for each cell from a filed saved on disk.
-            if (FileContents == string.Empty)
+            if (GameState == string.Empty)
             {
-                FileContents = RemoveNewLines(LoadGameFromDisk());
-                if (FileContents.Length != 81)
+                GameState = Tools.RemoveNewLines(LoadGameFromDisk());
+                Trace.WriteLine(GameState);
+                if (GameState.Length != 81)
                 {
-                    ShowMessage(@"Missing file or incorrect file format.");
-                    return;
+                    throw new Exception(@"Missing file or incorrect file format.");
                 }
             }
 
@@ -192,161 +80,91 @@ namespace SudokuMaster3
             {
                 foreach (var col in Enumerable.Range(1, 9))
                 {
-                    var value = int.Parse(FileContents[counter++].ToString());
+                    var value = int.Parse(GameState[counter++].ToString());
                     var button = (Button)FindName($"Cr{col}{row}");
-                    if (button == null) return;
-                    if (isRefresh && value > 0)
+                    if (button == null) throw new Exception("Button control not found.");
+
+                    if (!isReload && value > 0)
                     {
-                        button.Content = value;
+                        SudokuPuzzle.SetValue(button, value);
+                        SudokuPuzzle.SetIsGiven(button, true);
+                        button.Content = value.ToString();
+                        button.IsEnabled = false;
+                        SetAsGivenCell(ref button);
                     }
-
-                    if (!isRefresh && value > 0)
+                    else if (!isReload && value == 0)
                     {
-                        SetAsLockedCell(ref button);
-                        button.Content = value;
+                        SudokuPuzzle.SetValue(button, value);
+                        SudokuPuzzle.SetIsGiven(button, false);
+                        button.ContextMenu = FindResource("ContextMenu1") as ContextMenu;
+                        SetCandidates(ref button);
+                        SetAsMarkupCell(ref button);
                     }
-
-                    if (value != 0) continue;
-                    SetAsMarkupCell(ref button);
-                    button.ContextMenu = FindResource("ContextMenu1") as ContextMenu;
-                    UpdateCandidates(ref button);
-
+                    else if (isReload && value > 0 && button.IsEnabled)
+                    {
+                        button.Content = value.ToString();
+                        SetAsUserCell(ref button);
+                        SetCandidates(ref button);
+                    }
                 }
             }
-
-
         }
 
-        private static int GetRowFromButton(ref Button button)
+        private void SetCandidates(ref Button button)
         {
-            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Row, 1));
-        }
-
-        private static int GetColumnFromButton(ref Button button)
-        {
-            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Column, 1));
-        }
-
-        private static int GetRegionFromButton(ref Button button)
-        {
-            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Region, 1));
-        }
-
-        private static int ButtonIsGiven(ref Button button)
-        {
-            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.IsGiven, 1));
-        }
-
-        private string GetUpdatedButtonTag(ref Button button)
-        {
-            var oldString = button.Tag.ToString();
-            var sb = new StringBuilder(oldString);
-            sb.Remove((int)ButtonTag.Value, 1);
-            sb.Insert((int)ButtonTag.Value, SelectedValue);
-            return sb.ToString();
-        }
-
-        private static int GetValueFromButton(ref Button button)
-        {
-            return int.Parse(button.Tag.ToString().Substring((int)ButtonTag.Value, 1));
-        }
-
-        private void UpdateCandidates(ref Button button)
-        {
-            // To prevent updates to button that have isGiven property set to true.
-            if (ButtonIsGiven(ref button) == 1) return;
-
-            // To get values from button tag property.
-            var col = GetColumnFromButton(ref button);
-            var row = GetRowFromButton(ref button);
-            var region = GetRegionFromButton(ref button);
-            var value = GetValueFromButton(ref button);
-
-            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
-            {
-                if (!(control is Button btn) || GetRowFromButton(ref btn) != row) continue;
-                var candidates = UpdateCandidatesString(btn, value.ToString());
-                button.Content = TransformCandidates(candidates);
-                //Debug.WriteLine(button.Content);
-            }
-
-            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
-            {
-                if (!(control is Button btn) || GetColumnFromButton(ref btn) != col) continue;
-                var candidates = UpdateCandidatesString(btn, value.ToString());
-                button.Content = TransformCandidates(candidates);
-                //Debug.WriteLine(button.Content);
-
-            }
-
-            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
-            {
-                if (!(control is Button btn) || GetRegionFromButton(ref btn) != region) continue;
-                var candidates = UpdateCandidatesString(btn, value.ToString());
-                button.Content = TransformCandidates(candidates);
-                //Debug.WriteLine(button.Content);
-            }
-        }
-
-        private static string TransformCandidates(string candidates)
-        {
-            return string.Format("{0}{1}{2}{1}{3}", candidates.Substring(0, 3), Environment.NewLine,
-                candidates.Substring(3, 3), candidates.Substring(6, 3));
-        }
-
-        private static string UpdateCandidatesString(FrameworkElement btn, string value)
-        {
-            var btnTagString = btn.Tag.ToString();
-            var candidates = btnTagString.Substring((int)ButtonTag.Candidates, 9).Replace(value, " ");
-            var sb = new StringBuilder(btnTagString);
-            sb.Remove((int)ButtonTag.Candidates, 9);
-            sb.Insert((int)ButtonTag.Candidates, candidates);
-            btn.Tag = sb.ToString();
-            return candidates;
+            var candidates = SudokuPuzzle.GetCandidates(button);
+            candidates = candidates.Replace(SelectedValue.ToString(), " ");
+            SudokuPuzzle.SetCandidates(button, candidates);
+            button.Content = Tools.FormatCandidates(candidates);
         }
 
         private void Cell_Click(object sender, RoutedEventArgs e)
         {
-            if (!(sender is MenuItem mi)) return;
+            if (!(sender is MenuItem mi))
+            {
+                return;
+            }
+
             if (!(mi.CommandParameter is ContextMenu cm)) return;
             if (!(cm.PlacementTarget is Button button)) return;
+
             if (mi.Header.ToString() == @"Erase")
             {
                 button.Content = string.Empty;
                 return;
             }
 
-            SelectedButtonName = button.Name;
-            SelectedValue = int.Parse(mi.Header.ToString());
+            SelectedButton = button;
+            SelectedValue = int.Parse(mi.Header.ToString().Substring(5));
+            var col = SudokuPuzzle.GetColumn(button);
+            var row = SudokuPuzzle.GetRow(button);
 
-            var col = GetColumnFromButton(ref button);
-            var row = GetRowFromButton(ref button);
-
-            if (FileContents == string.Empty)
+            if (GameState == string.Empty)
             {
-                FileContents = LoadGameFromDisk();
+                GameState = LoadGameFromDisk();
             }
 
-            if (FileContents.Length != 81)
+            if (GameState.Length != 81)
             {
-                ShowMessage("Input string format was not valid.");
-                return;
+                throw new Exception("Input string format was not valid!");
             }
 
-            var oldString = FileContents;
+            var oldString = GameState;
+            Trace.WriteLine($"GameState = {oldString}");
+
             var sb = new StringBuilder(oldString);
-            var startPosition = GetPositionInString(col, row);
+            var startPosition = GetPositionInFileContents(col, row);
             sb.Remove(startPosition, 1);
             sb.Insert(startPosition, SelectedValue);
             var newString = sb.ToString();
-            FileContents = newString;
-
-            if (IsMoveValid(button.Name))
+            GameState = newString;
+            Trace.WriteLine($"GameState = {newString}");
+            OnPropertyRaised(GameState);
+            if (IsMoveValid())
             {
-                UpdateCandidates(ref button);
-                SetAsUnLockedCell(ref button);
                 button.Content = SelectedValue;
-                button.Tag = GetUpdatedButtonTag(ref button);
+                SetCandidates(ref button);
+                SetAsUserCell(ref button);
                 LoadSavedGame(true);
             }
             else
@@ -355,7 +173,7 @@ namespace SudokuMaster3
             }
         }
 
-        private static int GetPositionInString(int col, int row)
+        private static int GetPositionInFileContents(int col, int row)
         {
             var value = int.Parse($"{col}{row}");
             int returnValue;
@@ -612,73 +430,44 @@ namespace SudokuMaster3
             return returnValue;
         }
 
-        private static void SetAsLockedCell(ref Button button)
+        private static void SetAsGivenCell(ref Button button)
         {
             button.Background = new SolidColorBrush(Colors.LightSteelBlue);
             button.Foreground = new SolidColorBrush(Colors.Black);
-            button.FontFamily = new FontFamily("Consolas");
             button.FontSize = 12;
-            button.FontWeight = FontWeights.Bold;
-            button.IsEnabled = false;
         }
 
-        private static void SetAsUnLockedCell(ref Button button)
+        private static void SetAsUserCell(ref Button button)
         {
             button.Background = new SolidColorBrush(Colors.LightYellow);
             button.Foreground = new SolidColorBrush(Colors.Black);
-            button.FontFamily = new FontFamily("Consolas");
             button.FontSize = 12;
-            button.FontWeight = FontWeights.Bold;
-            //button.IsEnabled = true;
         }
 
         private static void SetAsMarkupCell(ref Button button)
         {
             button.Background = new SolidColorBrush(Colors.LightYellow);
             button.Foreground = new SolidColorBrush(Colors.Black);
-            button.FontFamily = new FontFamily("Consolas");
             button.FontSize = 8;
-            button.FontWeight = FontWeights.Bold;
         }
 
-        private bool IsMoveValid(string selectedButton)
+        private bool IsMoveValid()
         {
-            //todo: This needs to be fixed now
-            //var rows = 0;
-            //var columns = 0;
-            //var regions = 0;
-            var counter = 0;
 
-            foreach (var control in LogicalTreeHelper.GetChildren(PuzzleGrid))
+            foreach (var button in _buttons.Where(button => SudokuPuzzle.GetColumn(button) == SudokuPuzzle.GetColumn(SelectedButton)))
             {
-                if (control is Border border1 && border1 is Border border2)
-                {
-                    foreach (var col in Enumerable.Range(1, 9))
-                    {
-                        foreach (var row in Enumerable.Range(1, 9))
-                        {
-                            foreach (var region in Enumerable.Range(1, 9))
-                            {
-                                var btn = (Button)border2.FindName($"Cr{col}{row}");
-                                if (btn == null) continue;
-                                var buttonValue = GetValueFromButton(ref btn);
-                                if (buttonValue == 0) continue;
-
-                                // Don't want to compare the button's value to itself.
-                                if (btn.Name == selectedButton) continue;
-                                Debug.WriteLine($"Counter{++counter}");
-                                var buttonColumn = GetColumnFromButton(ref btn);
-                                var buttonRow = GetRowFromButton(ref btn);
-                                var buttonRegion = GetRegionFromButton(ref btn);
-                                if (buttonColumn == col && buttonValue == SelectedValue) return false;
-                                if (buttonRow == row && buttonValue == SelectedValue) return false;
-                                if (buttonRegion == region && buttonValue == SelectedValue) return false;
-                            }
-                        }
-                    }
-                }
+                if (SudokuPuzzle.GetValue(button) == SelectedValue) return false;
+            }
+            foreach (var button in _buttons.Where(button => SudokuPuzzle.GetRow(button) == SudokuPuzzle.GetRow(SelectedButton)))
+            {
+                if (SudokuPuzzle.GetValue(button) == SelectedValue) return false;
+            }
+            foreach (var button in _buttons.Where(button => SudokuPuzzle.GetRegion(button) == SudokuPuzzle.GetRegion(SelectedButton)))
+            {
+                if (SudokuPuzzle.GetValue(button) == SelectedValue) return false;
             }
 
+            TextBlock1.Text = string.Empty;
             return true;
         }
 
@@ -701,10 +490,12 @@ namespace SudokuMaster3
             Title = $@"Sudoku Master 3 - {openFileDialog.FileName}";
             return File.ReadAllText(openFileDialog.FileName).Replace(@".", "0").Replace(@"|", "").Replace(@"\r\n", "").Replace(@"-", "").Replace("X", "0");
         }
+
         private void MenuClearText_Click(object sender, RoutedEventArgs e)
         {
             TextBlock1.Text = string.Empty;
         }
+
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);

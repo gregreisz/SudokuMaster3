@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Loaded="MainWindow_Loaded"
+        xmlns:local="clr-namespace:SudokuMaster3"
         mc:Ignorable="d"
         FontFamily="Consolas"
         FontWeight="Bold"
@@ -12,36 +12,36 @@
         <!-- Having CommandParameter is crucial here -->
         <ContextMenu x:Key="ContextMenu1"
                      Background="White">
-            <MenuItem Header="1"
+            <MenuItem Header="Make 1"
                       Background="White"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="2"
+            <MenuItem Header="Make 2"
                       Background="White"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="3"
+            <MenuItem Header="Make 3"
                       Background="White"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="4"
-                      Background="White"
-                      Click="Cell_Click"
-                      CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="5"
+            <MenuItem Header="Make 4"
                       Background="White"
                       Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="6"
+            <MenuItem Header="Make 5"
                       Background="White"
                       Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="7"
+            <MenuItem Header="Make 6"
                       Background="White"
                       Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="8"
+            <MenuItem Header="Make 7"
                       Background="White"
                       Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
-            <MenuItem Header="9"
+            <MenuItem Header="Make 8"
+                      Background="White"
+                      Click="Cell_Click"
+                      CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+            <MenuItem Header="Make 9"
                       Background="White"
                       Click="Cell_Click"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
@@ -55,11 +55,11 @@
             <Setter Property="OverridesDefaultStyle"
                     Value="True" />
             <Setter Property="Background"
-                    Value="LightYellow" />
+                    Value="White" />
             <Setter Property="Padding"
-                    Value="2" />
+                    Value="0" />
             <Setter Property="Margin"
-                    Value="2" />
+                    Value="0" />
             <Setter Property="Foreground"
                     Value="MediumBlue" />
             <Setter Property="Template">
@@ -67,12 +67,12 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid Background="{TemplateBinding Background}">
                             <Border CornerRadius="0"
-                                    BorderBrush="OrangeRed"
+                                    BorderBrush="OrangeRed"    
                                     BorderThickness="0">
                                 <ContentPresenter x:Name="MyContentPresenter"
-                                                  Content="{TemplateBinding Content}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
+                                                  Content="{TemplateBinding Content}"  
+                                                  MinHeight="32"
+                                                  MinWidth="32"/>
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -134,903 +134,1635 @@
             </DockPanel>
             <DockPanel Grid.Row="1"
                        Dock="Top">
-                <UniformGrid DockPanel.Dock="Left"
-                             MinHeight="288"
-                             MinWidth="288"
-                             x:Name="PuzzleGrid"
-                             Columns="9"
-                             Rows="9">
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1">
-                            <Button Content="0"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr11" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr21" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr31" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr41" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr51" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr61" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr71" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr81" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,1,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr91" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr12" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr22" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr32" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr42" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr52" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr62" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr72" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr82" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr92" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr13" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr23" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr33" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr43" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr53" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr63" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr73" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr83" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr93" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr14" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr24" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr34" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr44" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr54" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr64" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr74" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr84" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr94" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr15" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr25" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr35" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr45" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr55" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr65" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr75" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr85" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr95" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr16" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr26" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,1">
-                        <Border BorderBrush="Black"
+                <Border BorderBrush="Black"
+                        BorderThickness="0">
+                    <UniformGrid DockPanel.Dock="Left"
+                                 MinHeight="288"
+                                 MinWidth="288"
+                                 x:Name="PuzzleGrid"
+                                 Columns="9"
+                                 Rows="9">
+                        <Border BorderBrush="Red" 
                                 BorderThickness="0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr36" />
+                            <Border BorderBrush="Black" 
+                                    BorderThickness="1">
+                                <Button x:Name="Button11"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="1"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0" >
+                                    <TextBlock x:Name="TextBlock11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr46" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr56" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,1">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr66" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,1,1">
+                                <Button x:Name="Button21" 
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0" >
+                                    <TextBlock x:Name="TextBlock21" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr76" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,0,1">
+                                <Button x:Name="Button31"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0" >
+                                    <TextBlock x:Name="TextBlock31" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,1,1">
+                                <Button x:Name="Button41"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.Value="0"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0" >
+                                    <TextBlock x:Name="TextBlock41" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,1,1">
+                                <Button x:Name="Button51"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock51" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr86" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,0,1">
+                                <Button x:Name="Button61"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock61" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,0,1">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,1,1">
+                                <Button x:Name="Button71"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="7"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock71" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,1,1">
+                                <Button x:Name="Button81"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock81" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,1,1,1">
+                                <Button x:Name="Button91"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="9"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock91" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="1,0,1,1">
+                                <Button x:Name="Button12"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="1"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red" 
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button22"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,1,0">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr96" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button32"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr17" />
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button42"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock42" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr27" />
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button52"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock52" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button62"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock62" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button72"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="7"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock72" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button82"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock82" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button92"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="9"
+                                        local:SudokuPuzzle.Row="2"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock92" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr37" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="1,0,1,0">
+                                <Button x:Name="Button13"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="1"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr47" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr57" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr67" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button23"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock23" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr77" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,0">
+                                <Button x:Name="Button33"
+                                        local:SudokuPuzzle.Region="1"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr87" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr97" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr18" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr28" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr38" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button43"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock43" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr48" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr58" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr68" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button53"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock53" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr78" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,0">
+                                <Button x:Name="Button63"
+                                        local:SudokuPuzzle.Region="2"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock63" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr88" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr98" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="1,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr19" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr29" />
-                        </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0,0,1,0">
-                        <Border BorderBrush="Black"
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,0,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr39" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button73"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="7"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock73" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button83"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="3"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock83" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button93"
+                                        local:SudokuPuzzle.Region="3"
+                                        local:SudokuPuzzle.Column="1"
+                                        local:SudokuPuzzle.Row="1"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock93" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                        BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                            BorderThickness="1,0,1,1">
+                                <Button x:Name="Button14"
+                                                local:SudokuPuzzle.Region="4"
+                                                local:SudokuPuzzle.Column="1"
+                                                local:SudokuPuzzle.Row="4"
+                                                local:SudokuPuzzle.IsGiven="false"
+                                                local:SudokuPuzzle.Candidates="123456789"
+                                                local:SudokuPuzzle.Value="0"
+                                                FontFamily="Consolas"
+                                                FontWeight="Bold"
+                                                Click="Cell_Click"
+                                                Style="{StaticResource MyButton2}"
+                                                BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button24"
+                                        local:SudokuPuzzle.Region="4"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button34"
+                                        local:SudokuPuzzle.Region="4"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock34" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button44"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock44" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
                         <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                            <Border BorderBrush="Red"
+                                BorderThickness="0">
+                                <Button x:Name="Button54"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock54" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button64"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button74"
+                                        local:SudokuPuzzle.Region="6"
+                                        local:SudokuPuzzle.Column="7"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock74" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button84"
+                                        local:SudokuPuzzle.Region="6"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock84" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button94"
+                                        local:SudokuPuzzle.Region="6"
+                                        local:SudokuPuzzle.Column="9"
+                                        local:SudokuPuzzle.Row="4"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock94" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="1,0,1,1">
+                                <Button x:Name="Button15" 
+                                         local:SudokuPuzzle.Region="4"
+                                         local:SudokuPuzzle.Column="1"
+                                         local:SudokuPuzzle.Row="5"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button25"
+                                        local:SudokuPuzzle.Region="4"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="5"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button35"
+                                        local:SudokuPuzzle.Region="4"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="5"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock35" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button45"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="5"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock45" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button55"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="5"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock55" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button65"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="5"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock65" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button75"
+                                        local:SudokuPuzzle.Region="6"
+                                        local:SudokuPuzzle.Column="7"
+                                        local:SudokuPuzzle.Row="5"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock75" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button85"
+                                        local:SudokuPuzzle.Region="6"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="5"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock85" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button95" 
+                                         local:SudokuPuzzle.Region="6"
+                                         local:SudokuPuzzle.Column="9"
+                                         local:SudokuPuzzle.Row="5"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock95" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="1,0,1,0">
+                                <Button x:Name="Button16"
+                                        local:SudokuPuzzle.Region="4"
+                                        local:SudokuPuzzle.Column="1"
+                                        local:SudokuPuzzle.Row="6"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button26"
+                                        local:SudokuPuzzle.Region="4"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="6"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
                                 BorderThickness="0,0,1,1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr49" />
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0">
+                                <Button x:Name="Button36"
+                                        local:SudokuPuzzle.Region="4"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="6"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0 0 1 1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr59" />
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button46"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="6"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock46" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0 0 1 0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0 0 0 1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr69" />
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button56" 
+                                         local:SudokuPuzzle.Region="5"
+                                         local:SudokuPuzzle.Column="5"
+                                         local:SudokuPuzzle.Row="6"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock56" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0 0 1 1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr79" />
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0">
+                                <Button x:Name="Button66"
+                                        local:SudokuPuzzle.Region="5"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="6"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock66" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0 0 1 1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr89" />
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button76" 
+                                         local:SudokuPuzzle.Region="6"
+                                         local:SudokuPuzzle.Column="7"
+                                         local:SudokuPuzzle.Row="6"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock76" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                    <Border BorderBrush="Red"
-                            BorderThickness="0">
-                        <Border BorderBrush="Black"
-                                BorderThickness="0 0 1 1">
-                            <Button Content="0"
-                                    Click="Cell_Click"
-                                    Style="{StaticResource MyButton2}"
-                                    BorderThickness="0"
-                                    x:Name="Cr99" />
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button86"
+                                        local:SudokuPuzzle.Region="6"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="6"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock86" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
                         </Border>
-                    </Border>
-                </UniformGrid>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,0,1">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,0">
+                                <Button x:Name="Button96" 
+                                         local:SudokuPuzzle.Region="6"
+                                         local:SudokuPuzzle.Column="9"
+                                         local:SudokuPuzzle.Row="6"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="1,0,1,1">
+                                <Button x:Name="Button17" 
+                                         local:SudokuPuzzle.Region="7"
+                                         local:SudokuPuzzle.Column="1"
+                                         local:SudokuPuzzle.Row="7"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button27"
+                                        local:SudokuPuzzle.Region="7"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="7"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock27" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button37"
+                                        local:SudokuPuzzle.Region="7"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="7"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock37" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button47"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="7"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock47" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button57"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="7"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock57" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button67"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="7"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock67" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button77" 
+                                         local:SudokuPuzzle.Region="9"
+                                         local:SudokuPuzzle.Column="7"
+                                         local:SudokuPuzzle.Row="7"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock77" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button87"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="7"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock87" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button97"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="9"
+                                        local:SudokuPuzzle.Row="7"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock97" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="1,0,1,1">
+                                <Button x:Name="Button18" 
+                                         local:SudokuPuzzle.Region="7"
+                                         local:SudokuPuzzle.Column="1"
+                                         local:SudokuPuzzle.Row="8"
+                                         local:SudokuPuzzle.IsGiven="false"
+                                         local:SudokuPuzzle.Candidates="123456789"
+                                         local:SudokuPuzzle.Value="0"
+                                         FontFamily="Consolas"
+                                         FontWeight="Bold"
+                                         Click="Cell_Click"
+                                         Style="{StaticResource MyButton2}"
+                                         BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button28"
+                                        local:SudokuPuzzle.Region="7"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button38"
+                                        local:SudokuPuzzle.Region="7"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock38" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button48"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button58"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock58" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button68"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock68" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button78"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="7"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock78" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button88"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock88" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button98"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="9"
+                                        local:SudokuPuzzle.Row="8"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock98" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="1,0,1,1">
+                                <Button x:Name="Button19"
+                                        local:SudokuPuzzle.Region="7"
+                                        local:SudokuPuzzle.Column="1"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button29"
+                                        local:SudokuPuzzle.Region="7"
+                                        local:SudokuPuzzle.Column="2"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock29" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0,0,1,0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,0,1">
+                                <Button x:Name="Button39"
+                                        local:SudokuPuzzle.Region="7"
+                                        local:SudokuPuzzle.Column="3"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock39" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0,0,1,1">
+                                <Button x:Name="Button49" 
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="4"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock49" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0 0 1 1">
+                                <Button x:Name="Button59"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="5"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock59" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0 0 1 0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0 0 0 1">
+                                <Button x:Name="Button69"
+                                        local:SudokuPuzzle.Region="8"
+                                        local:SudokuPuzzle.Column="6"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock69" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0 0 1 1">
+                                <Button x:Name="Button79"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="7"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock79" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0 0 1 1">
+                                <Button x:Name="Button89"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="8"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock89" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                        <Border BorderBrush="Red"
+                                BorderThickness="0">
+                            <Border BorderBrush="Black"
+                                    BorderThickness="0 0 1 1">
+                                <Button x:Name="Button99"
+                                        local:SudokuPuzzle.Region="9"
+                                        local:SudokuPuzzle.Column="9"
+                                        local:SudokuPuzzle.Row="9"
+                                        local:SudokuPuzzle.IsGiven="false"
+                                        local:SudokuPuzzle.Candidates="123456789"
+                                        local:SudokuPuzzle.Value="0"
+                                        FontFamily="Consolas"
+                                        FontWeight="Bold"
+                                        Click="Cell_Click"
+                                        Style="{StaticResource MyButton2}"
+                                        BorderThickness="0">
+                                    <TextBlock x:Name="TextBlock99" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </Border>
+                        </Border>
+                    </UniformGrid>
+                </Border>
                 <Grid DockPanel.Dock="Right"
                       MinWidth="298"
                       Margin="10 0 0 0">
@@ -1044,7 +1776,7 @@
                     </Border>
                 </Grid>
             </DockPanel>
-            <StatusBar Grid.Row="2"    
+            <StatusBar Grid.Row="2"
                        Background="White"
                        MinHeight="12">
                 <TextBlock x:Name="TextBlockDisplay"
